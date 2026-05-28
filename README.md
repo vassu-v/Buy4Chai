@@ -192,6 +192,10 @@ Don't want to fill the config manually? Hand this prompt to any AI agent — Cla
 
 **Step 4:** Answer the agent's questions, confirm your config, deploy.
 
+> [!TIP]
+> Want custom colors? Just tell your AI agent: "Change the accent 
+> color to [your color] by updating the CSS variables in index.css" 
+> - it'll handle the rest in seconds and you can customize the theme to your like!
 
 
 ---
