@@ -1,6 +1,6 @@
 <div align="center">
-  <img src="public/logo.svg" width="120" alt="Buy Me a Chai Logo" />
-  <h1>Buy Me a Chai ☕</h1>
+  <img src="public/logo.svg" width="120" alt="Buy4Chai Logo" />
+  <h1>Buy4Chai ☕</h1>
   <p><strong>The narrative-driven, self-hosted supporter page for the modern Indian developer.</strong></p>
 
   <p>
@@ -10,7 +10,7 @@
   </p>
 
   <p>
-    <a href="https://buy4chai-vassu-v.vercel.app/"><strong>View Demo</strong></a> •
+    <a href="https://buy4-chai.vercel.app/"><strong>View template</strong></a> •
     <a href="https://buy4chai-vassu-v.vercel.app/"><strong>View Hosted Real Page</strong></a> •
     <a href="#-deployment-in-10-minutes"><strong>Deploy Yours</strong></a> •
     <a href="#-tutorial"><strong>Watch Tutorial</strong></a> •
@@ -30,7 +30,7 @@
 
 Platforms like **Buy Me a Coffee** and **GitHub Sponsors** rely on Stripe. In India, Stripe is invite-only, leaving thousands of developers stranded.
 
-Sharing a UPI ID in a README feels "janky." Using PayPal involves massive fees. **Buy Me a Chai** fixes this by building a world-class **UX Layer** on top of the gateways that actually work in India (Razorpay & Dodo Payments).
+Sharing a UPI ID in a README feels "janky." Using PayPal involves massive fees. **Buy4Chai** fixes this by building a world-class **UX Layer** on top of the gateways that actually work in India (Razorpay & Dodo Payments).
 
 ## ✨ Why this is better
 
