@@ -54,19 +54,17 @@ The project defines a formal **Gateway Contract** in [`gateway.md`](./gateway.md
 
 To add a new gateway, you don't wait for a PR. You don't file an issue. You paste this prompt into Claude / Cursor / Antigravity along with the gateway's docs:
 
-> *Read `gateway.md` and the attached documentation for [Gateway Name]. Follow the Gateway Contract. Decide Tier 1 vs Tier 2 based on the docs. Implement `src/gateways/[name].js` with 100% static compliance and zero backend logic.*
+> "Read `gateway.md` and the attached documentation for [Gateway Name]. Follow the architectural best practices and the 'Gateway Contract' defined in `gateway.md`. Decide whether to follow the Tier 1 (Redirect) or Tier 2 (SDK) flow based on the provided docs. Implement `src/gateways/[name].js` ensuring 100% static compliance and zero-backend logic."
+>
+> **User Tip:** Just clone this repo, open your AI agent, attach your payment gateway's documentation, and let the agent run. Provide it with your Public Key ID when asked, and you're ready to host. Simple as that.
 
 That's how **Razorpay** got built. That's how **Dodo Payments** got built. The same prompt + docs gives you:
 
-| Country | Gateway | Status |
-|---|---|---|
-| 🇮🇳 India | Razorpay | ✅ Shipped |
-| 🇮🇳 India | Dodo Payments | ✅ Shipped |
-| 🇮🇳 India | Cashfree | 🟡 5-min build |
-| 🇧🇷 Brazil | Mercado Pago / PIX | 🟡 5-min build |
-| 🇰🇪 Kenya | M-Pesa Daraja | 🟡 5-min build |
-| 🇮🇩 Indonesia | Midtrans / GoPay | 🟡 5-min build |
-| 🌎 Global | Stripe / Paddle / Lemon Squeezy | 🟡 5-min build |
+| Gateway | Status |
+|---|---|
+| Razorpay | ✅ Shipped |
+| Dodo Payments | 🟡 Partial build |
+| Stripe / Paddle / Lemon Squeezy | 🟡 5-min build |
 
 If your country has a gateway with API docs, Buy4Chai supports it. You're 1 prompt away.
 
@@ -84,24 +82,17 @@ cd Buy4Chai && npm install && npm run dev
 
 # 3. Fill 6 steps. Copy the generated config to chai.config.js. Push.
 
-# 4. Deploy to Vercel/Netlify. Done.
+# 4. Deploy to Vercel/Netlify. Done!
 ```
 
 ⏱ **~10 minutes** if you already have a Razorpay/gateway account.
 🎬 **[~3 minutes](#-tutorial)** if you want a full walkthrough video.
 
----
+> **💡 Pro Tip:** Use the AI Prompts and BYO Gateway guide below to set up instantly while you work, then one-click deploy with Vercel or any other service, exactly as shown in the video. 
+> 
+> *P.S. We used Jules async on the web to build this instantly!*
 
-## 🌍 Not Just India
 
-Buy4Chai started as a fix for Indian developers locked out of Stripe. But "locked out of Stripe" describes most of the developer world:
-
-- **Latin America** — Stripe limited; PIX, Mercado Pago, dLocal dominate
-- **Africa** — M-Pesa, Flutterwave, Paystack
-- **Southeast Asia** — Midtrans, GoPay, GCash
-- **MENA** — PayTabs, Tap, HyperPay
-
-If you ship Buy4Chai with a gateway adapter for your region, open a PR — we'll feature your country in the README.
 
 ---
 
@@ -123,13 +114,11 @@ That's not a side effect. It's the design.
 
 ---
 
-## 📸 Visuals
+## 🛡️ Secure by Design
 
-### Dark Mode (Default)
-[![Dark Mode](screenshots/dark_mode.jpg)](https://buy4-chai.vercel.app/)
-
-### Light Mode
-[![Light Mode](screenshots/light_mode.jpg)](https://buy4-chai.vercel.app/)
+- **Public Keys Only:** Buy4Chai never asks for Secret Keys. Your config is safe to be public.
+- **Setup Lockdown:** Disable the configuration wizard in production with a single toggle.
+- **Password Protection:** Your setup route is gated by a unique key known only to you.
 
 ---
 
@@ -138,6 +127,7 @@ That's not a side effect. It's the design.
 | **Storytelling** | **Project Showcase** | **Dual Currency** |
 | :--- | :--- | :--- |
 | Build a narrative around your work. Let people know *why* they should support you. | Pin your best open-source projects with high-quality preview cards. | Automatic USD/Local conversion with a simple supporter-facing toggle. |
+
 
 ---
 
@@ -202,22 +192,7 @@ Don't want to fill the config manually? Hand this prompt to any AI agent — Cla
 
 **Step 4:** Answer the agent's questions, confirm your config, deploy.
 
----
 
-## 🛡️ Secure by Design
-
-- **Public Keys Only:** Buy4Chai never asks for Secret Keys. Your config is safe to be public.
-- **Setup Lockdown:** Disable the configuration wizard in production with a single toggle.
-- **Password Protection:** Your setup route is gated by a unique key known only to you.
-
----
-
-## 📊 Adapters in the wild
-
-| Project | Country | Gateway | Live |
-|---|---|---|---|
-| @vassu-v | 🇮🇳 IN | Razorpay | [Demo](https://buy4chai-vassu-v.vercel.app/) |
-| _(yours here — open a PR)_ | | | |
 
 ---
 
@@ -237,6 +212,41 @@ Choose a badge style that fits your project's aesthetic:
 
 > [!TIP]
 > For the **Bento-Box** style, you will have to change the badge name and host it on your own domain. Instead of using the Raw GitHub link, use your own deployment link (e.g., `https://your-name.vercel.app/badges/personal.svg`) for the image source to ensure full control over your branding.
+
+---
+
+
+## 🌍 Not Just India
+
+Buy4Chai started as a fix for Indian developers locked out of Stripe. But "locked out of Stripe" describes most of the developer world:
+
+- **Latin America** — Stripe limited; PIX, Mercado Pago, dLocal dominate
+- **Africa** — M-Pesa, Flutterwave, Paystack
+- **Southeast Asia** — Midtrans, GoPay, GCash
+- **MENA** — PayTabs, Tap, HyperPay
+
+If you ship Buy4Chai with a gateway adapter for your region, open a PR — we'll feature your country in the README if you want.
+
+---
+
+## 📊 Adapters in the wild
+
+| Project | Gateway |
+|---|---|
+| @vassu-v | Razorpay |
+| _(yours here — open a PR)_ | |
+
+---
+
+
+## 💖 Loved and Supported by the Community
+
+<div align="center">
+  <img src="screenshots/community_1.png" alt="Community feedback 1" width="45%" />
+  <img src="screenshots/community_2.png" alt="Community feedback 2" width="45%" />
+  <br>
+  <img src="screenshots/community_3.png" alt="Community feedback 3" width="70%" />
+</div>
 
 ---
 
