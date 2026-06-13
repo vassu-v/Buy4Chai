@@ -199,23 +199,47 @@ Don't want to fill the config manually? Hand this prompt to any AI agent — Cla
 
 
 ---
-
 ## 🔌 Add to your README
 
 Choose a badge style that fits your project's aesthetic:
 
-| Style | Preview | Markdown Snippet (Click to expand) |
-| :--- | :--- | :--- |
-| **Mono-Chai** | ![Mono-Chai](public/badges/standard.svg) | <details><summary>Get Code</summary><br><br>```markdown<br>[![Support](https://raw.githubusercontent.com/vassu-v/Buy4Chai/main/public/badges/standard.svg)](https://your-deployment-url.vercel.app)<br>```<br></details> |
-| **Bento-Box** | ![Bento-Box](public/badges/personal.svg) | <details><summary>Get Code</summary><br><br>```markdown<br>[![Support](https://raw.githubusercontent.com/vassu-v/Buy4Chai/main/public/badges/personal.svg)](https://your-deployment-url.vercel.app)<br>```<br></details> |
-| **Light Pill** | ![Light Pill](public/badges/buy4chai.svg) | <details><summary>Get Code</summary><br><br>```markdown<br>[![Support](https://raw.githubusercontent.com/vassu-v/Buy4Chai/main/public/badges/buy4chai.svg)](https://your-deployment-url.vercel.app)<br>```<br></details> |
-| **Classic** | ![Classic](public/badges/badge.svg) | <details><summary>Get Code</summary><br><br>```markdown<br>[![Support](https://raw.githubusercontent.com/vassu-v/Buy4Chai/main/public/badges/badge.svg)](https://your-deployment-url.vercel.app)<br>```<br></details> |
-| **Shields.io** | ![Shields](https://img.shields.io/badge/Support-Buy4Chai-8B5E3C?style=for-the-badge&logo=coffee&logoColor=white) | <details><summary>Get Code</summary><br><br>```markdown<br>[![Support](https://img.shields.io/badge/Support-Buy4Chai-8B5E3C?style=for-the-badge&logo=coffee&logoColor=white)](https://your-deployment-url.vercel.app)<br>```<br></details> |
+| Style | Preview |
+| :--- | :--- |
+| **Mono-Chai** | ![Mono-Chai](public/badges/standard.svg) |
+| **Bento-Box** | ![Bento-Box](public/badges/personal.svg) |
+| **Light Pill** | ![Light Pill](public/badges/buy4chai.svg) |
+| **Classic** | ![Classic](public/badges/badge.svg) |
+| **Shields.io** | ![Shields](https://img.shields.io/badge/Support-Buy4Chai-8B5E3C?style=for-the-badge&logo=coffee&logoColor=white) |
+
+**Mono-Chai**
+```markdown
+[![Support](https://raw.githubusercontent.com/vassu-v/Buy4Chai/main/public/badges/standard.svg)](https://your-deployment-url.vercel.app)
+```
+
+**Bento-Box**
+```markdown
+[![Support](https://raw.githubusercontent.com/vassu-v/Buy4Chai/main/public/badges/personal.svg)](https://your-deployment-url.vercel.app)
+```
+
+**Light Pill**
+```markdown
+[![Support](https://raw.githubusercontent.com/vassu-v/Buy4Chai/main/public/badges/buy4chai.svg)](https://your-deployment-url.vercel.app)
+```
+
+**Classic**
+```markdown
+[![Support](https://raw.githubusercontent.com/vassu-v/Buy4Chai/main/public/badges/badge.svg)](https://your-deployment-url.vercel.app)
+```
+
+**Shields.io**
+```markdown
+[![Support](https://img.shields.io/badge/Support-Buy4Chai-8B5E3C?style=for-the-badge&logo=coffee&logoColor=white)](https://your-deployment-url.vercel.app)
+```
 
 *(Replace `your-deployment-url.vercel.app` with your actual live URL).*
 
 > [!TIP]
-> For the **Bento-Box** style, you will have to change the badge name and host it on your own domain. Instead of using the Raw GitHub link, use your own deployment link (e.g., `https://your-name.vercel.app/badges/personal.svg`) for the image source to ensure full control over your branding.
+> For the **Bento-Box** style, use your own deployment link (e.g., `https://your-name.vercel.app/badges/personal.svg`) as the image source for full control over your branding.
 
 ---
 
