@@ -11,197 +11,205 @@
   </p>
 
   <p>
-    <a href="#-quick-start"><strong>Quick Start</strong></a> •
-    <a href="#-bring-your-own-gateway"><strong>BYO Gateway</strong></a> •
-    <a href="https://buy4-chai.vercel.app/"><strong>View template</strong></a> •
+    <a href="#quick-start"><strong>Quick Start</strong></a> •
+    <a href="#bring-your-own-gateway"><strong>BYO Gateway</strong></a> •
+    <a href="https://buy4-chai.vercel.app/"><strong>View Template</strong></a> •
     <a href="https://buy4chai-vassu-v.vercel.app/"><strong>Live Demo</strong></a> •
-    <a href="#-why-this-exists"><strong>Why</strong></a>
+    <a href="https://land-chai.vercel.app/"><strong>Landing Page</strong></a> •
+    <a href="https://land-chai.vercel.app/playground"><strong>Live Preview</strong></a> •
+    <a href="#why-this-exists"><strong>Why</strong></a>
   </p>
 
-  <p>
-    <a href="https://buy4chai-vassu-v.vercel.app/">
-      <img src="https://buy4chai-vassu-v.vercel.app/badges/personal.svg" alt="Support & Make Badge" />
-    </a>
-  </p>
+  <a href="https://buy4chai-vassu-v.vercel.app/">
+    <img src="https://buy4chai-vassu-v.vercel.app/badges/personal.svg" alt="Support & Make Badge" />
+  </a>
 </div>
 
 ---
 
-## 🛑 Why this exists
+## Why This Exists
 
-If you're a developer outside the US/UK/EU, you've hit this wall:
+If you're a developer outside the US/UK/EU, you've probably run into this:
 
-- **Buy Me a Coffee** → Stripe → doesn't work
-- **Ko-fi** → Stripe → doesn't work
-- **GitHub Sponsors** → Stripe → doesn't work
-- **PayPal** → 4–5% fees + painful FIRC compliance per payout
-- **A UPI/PIX/M-Pesa link in your README** → janky, unprofessional, breaks on desktop
+| Platform | The problem |
+|---|---|
+| Buy Me a Coffee | Stripe only |
+| Ko-fi | Stripe only |
+| GitHub Sponsors | Stripe only |
+| PayPal | 4-5% fees + FIRC compliance paperwork on every payout |
+| UPI/PIX/M-Pesa link in your README | Works, but looks improvised and breaks on desktop |
 
-The problem isn't tipping. It's that every tipping platform is welded to one payment rail — and that rail isn't yours.
+The problem isn't accepting tips. It's that every tipping platform is built around one payment rail, and that rail usually isn't available where you live.
 
-**Buy4Chai inverts the model.** The platform is a static site. The payment gateway is whatever works in your country. You wire them together once, deploy once, and own the result forever.
+Buy4Chai is just a static site. The payment gateway is whatever works in your country. Plug in your gateway, deploy once, and it runs.
 
 ---
 
-## 🔌 Bring Your Own Gateway
+## Bring Your Own Gateway
 
-Most tip platforms are welded to Stripe. Buy4Chai is welded to nothing.
+Most tip platforms are built around Stripe. Buy4Chai doesn't have an opinion about your gateway.
 
-The project defines a formal **Gateway Contract** in [`docs/gateway.md`](./docs/gateway.md):
-- **Tier 1** — Redirect flow (any gateway with a hosted checkout URL)
-- **Tier 2** — SDK flow (any gateway with a JS SDK)
-- 100% static, zero backend, public keys only
+The project defines a **Gateway Contract** in [`docs/gateway.md`](./docs/gateway.md) with two integration tiers:
 
-To add a new gateway, you don't wait for a PR. You don't file an issue. You paste this prompt into Claude / Cursor / Antigravity along with the gateway's docs:
+- **Tier 1 (Redirect)** - for any gateway that provides a hosted checkout URL
+- **Tier 2 (SDK)** - for any gateway with a JavaScript SDK
+- 100% static, no backend, public keys only
 
-> "Read `docs/gateway.md` and the attached documentation for [Gateway Name]. Follow the architectural best practices and the 'Gateway Contract' defined in `docs/gateway.md`. Decide whether to follow the Tier 1 (Redirect) or Tier 2 (SDK) flow based on the provided docs. Implement `src/gateways/[name].js` ensuring 100% static compliance and zero-backend logic."
->
-> **User Tip:** Just clone this repo, open your AI agent, attach your payment gateway's documentation, and let the agent run. Provide it with your Public Key ID when asked, and you're ready to host. Simple as that.
+To add a gateway, paste this prompt into Claude, Cursor, Copilot, or whichever AI tool you use, along with your gateway's documentation:
 
-That's how **Razorpay** got built. That's how **Dodo Payments** got built. The same prompt + docs gives you:
+```
+"Read `docs/gateway.md` and the attached documentation for [Gateway Name]. Follow the architectural best practices and the 'Gateway Contract' defined in `docs/gateway.md`. Decide whether to follow the Tier 1 (Redirect) or Tier 2 (SDK) flow based on the provided docs. Implement `src/gateways/[name].js` ensuring 100% static compliance and zero-backend logic."
+```
+
+> [!TIP]
+> Clone the repo, open your AI agent, attach your gateway's docs, and let it run. Provide your Public Key ID when asked.
+
+That's how Razorpay got built. That's how Dodo Payments got built.
 
 | Gateway | Status |
 |---|---|
 | Razorpay | ✅ Shipped |
 | Dodo Payments | 🟡 Partial build |
-| Stripe / Paddle / Lemon Squeezy | 🟡 5-min build |
+| Stripe / Paddle / Lemon Squeezy | 🟡 ~5 min build |
 
-If your country has a gateway with API docs, Buy4Chai supports it. You're 1 prompt away.
+If your country has a gateway with API docs, it'll work here.
 
 ---
 
-## 🚀 Quick Start
+## Loved by the Community
+
+<div align="center">
+  <img src="screenshots/community_1.png" alt="Community feedback 1" width="45%" />
+  <img src="screenshots/community_2.png" alt="Community feedback 2" width="45%" />
+  <br>
+  <img src="screenshots/community_3.png" alt="Community feedback 3" width="70%" />
+</div>
+
+---
+
+## Quick Start
 
 ```bash
-# 1. Fork & clone
+# 1. Fork and clone
 git clone https://github.com/YOUR_USERNAME/Buy4Chai.git
 cd Buy4Chai && npm install && npm run dev
 
 # 2. Open the setup wizard
-# Default URL: http://localhost:3000/#setup?key=chai123
+# http://localhost:3000/#setup?key=chai123
 
-# 3. Fill 6 steps. Copy the generated config to chai.config.js. Push.
+# 3. Fill out 6 steps. Copy the generated config to chai.config.js. Push.
 
-# 4. Deploy to Vercel/Netlify. Done!
+# 4. Deploy to Vercel or Netlify. Done.
 ```
 
-⏱ **~10 minutes** if you already have a Razorpay/gateway account.
-🎬 **[~3 minutes](#-tutorial)** if you want a full walkthrough video.
+Should take about 10 minutes if you already have a gateway account.
 
-> **💡 Pro Tip:** Use the AI Prompts and BYO Gateway guide below to set up instantly while you work, then one-click deploy with Vercel or any other service, exactly as shown in the video. 
-> 
-> *P.S. We used Jules async on the web to build this instantly!*
-
-
+> [!NOTE]
+> Check the [AI setup section](#ai-powered-setup) below if you'd rather have an AI agent handle your config. The [tutorial video](#tutorial) walks through the full flow if you want to see it first.
+>
+> *We built the initial version with Jules async - worth checking out.*
 
 ---
 
-## 🤝 You Own This
+## You Own It - Here's What That Gets You
 
-We don't run a SaaS. We don't have an account system. We don't see your money, your supporters' data, or your traffic. Your fork is your fork. If this repo disappears tomorrow, your deployment keeps working.
+No SaaS, no account system, nothing between you and your supporters. Fork it, deploy it, and it runs independently. If this repo disappears tomorrow, your deployment keeps working. That's not accidental - it's the point.
 
-That's not a side effect. It's the design.
+Here's what you're actually working with:
 
----
+**The page**
 
-## ✨ Why this is better
+| Section | What it does |
+| :--- | :--- |
+| Storytelling layout | A proper page for your work, not just a payment button. Space to say what you're building and why. |
+| Project showcase | Pin your best open-source work with preview cards. |
+| Dual currency | Set amounts in USD, get paid in your local currency. Supporters can toggle between currencies with live conversion. |
 
-- **📖 Narrative-First Design:** Move beyond transactional forms. Build a connection with your supporters through an editorial-style layout that showcases your mission, your story, and your gallery.
-- **💱 Dual-Currency Engine:** A first-of-its-kind system for developers. Set prices in USD, receive in your local currency. Supporters can toggle currencies in real-time with automatic conversion.
-- **💸 0% Platform Fees:** We aren't a middleman. Money moves directly from your supporters to your gateway account. You keep every cent.
-- **🛡️ Self-Hosted Sovereignty:** You own the deployment. No platform accounts, no vendor lock-in. Host it on your own domain using Vercel, GitHub Pages, or Netlify for free.
-- **🔐 Protected Onboarding:** A professional 6-step setup wizard (`/#setup`) that handles everything from identity to gateway keys, gated by a security key for production safety.
+**Everything else**
 
----
+- **0% fees** - money goes directly from supporter to your gateway account. No platform taking a cut.
+- **Self-hosted** - deploy on Vercel, GitHub Pages, or Netlify for free. No extra accounts, no lock-in.
+- **Setup wizard** - a 6-step guided wizard at `/#setup` that handles your profile, pinned projects, and gateway keys.
 
-## 🛡️ Secure by Design
+**Security**
 
-- **Public Keys Only:** Buy4Chai never asks for Secret Keys. Your config is safe to be public.
-- **Setup Lockdown:** Disable the configuration wizard in production with a single toggle.
-- **Password Protection:** Your setup route is gated by a unique key known only to you.
-
----
-
-## 🎨 The Experience
-
-| **Storytelling** | **Project Showcase** | **Dual Currency** |
-| :--- | :--- | :--- |
-| Build a narrative around your work. Let people know *why* they should support you. | Pin your best open-source projects with high-quality preview cards. | Automatic USD/Local conversion with a simple supporter-facing toggle. |
-
+- **Public keys only** - the config only needs your public key ID. Safe to commit, safe to leave public.
+- **Wizard lockdown** - flip one toggle to disable the setup wizard once you're done.
+- **Route protection** - the `/#setup` route requires a key only you know.
 
 ---
 
-## 📹 Tutorial
+## Tutorial
 
-Watch the walkthrough video to see the setup wizard and supporter payment flow in action:
+Walkthrough of the setup wizard and payment flow:
 
-*👉 **[Click here to watch the tutorial video](https://buy4-chai.vercel.app/complete.mp4)** 🎥*
+**[Watch the video](https://buy4-chai.vercel.app/complete.mp4)**
 
 ---
 
-## 🤖 AI-Powered Setup — Let AI Build Your Page For You
+## AI-Powered Setup
 
-Don't want to fill the config manually? Hand this prompt to any AI agent — Claude, Copilot, Cursor, Jules, whatever you use.
+Don't want to fill the config manually? Any AI agent works - Claude, Copilot, Cursor, Jules, whatever you use.
 
 **Step 1:** Fork the repo and open it in your AI agent.
 
-**Step 2:** Copy your profile content from wherever you exist online — GitHub, LinkedIn, Twitter, your personal site, anywhere. Just paste the text content directly into the chat with the prompt below. No links needed, the AI doesn't need to browse the web.
+**Step 2:** Copy your profile content from wherever you're active online - GitHub bio, LinkedIn, Twitter, personal site, anywhere. Paste the raw text directly into chat. The agent doesn't need to browse URLs.
 
-**Step 3:** Paste this prompt followed by your copied content:
+**Step 3:** Use this prompt, followed by your pasted content:
 
-> I want to set up my Buy4Chai supporter page.
-> I've pasted my profile content below from my online profiles.
-> 
-> Please do the following:
-> 
-> 1. Read through everything I've pasted and extract the following:
->    - My name
->    - A short bio (one or two lines, friendly and human)
->    - My avatar/profile image if mentioned or linked
->    - My social links (GitHub, LinkedIn, Twitter, website)
->    - My best projects worth pinning — name, description, link, and preview image if available
-> 
-> 2. Before writing anything, show me what you found and confirm with me:
->    - Which projects should be pinned and in what order?
->    - Is the bio accurate or should it be reworded?
->    - Ask me if I have a profile photo or avatar I want to use
->    - Ask me if I have any gallery images I want to show
->    - Ask me what thank you message I want supporters to see after they pay
-> 
-> 3. Once I've confirmed everything, write it all to `chai.config.js` only. Do not touch any other file. The structure of `chai.config.js` is already in the repo — follow it exactly, just fill in my real values.
-> 
-> 4. Rename the personal badge in `public/badges/personal.svg` — replace the placeholder name with my actual name.
-> 
-> 5. Once done, verify the full flow:
->    - Does the page load correctly?
->    - Does the payment modal open?
->    - Does the thank you screen appear on success?
-> 
-> 6. Give me a clean summary of everything that was added and what my next step is to deploy.
-> 
-> Important rules you must follow:
-> - Only edit `chai.config.js` and the personal badge — nothing else
-> - Never ask for or use a secret or private key
-> - If any information is missing from what I pasted, ask me directly rather than guessing or making something up
-> - Always confirm with me before writing anything to any file
-> - Do not assume I use any specific platform — work with whatever content I provide
-> 
-> ---
-> 
-> [PASTE YOUR PROFILE CONTENT HERE — from any platform, any format, just copy and paste the text]
+```
+I want to set up my Buy4Chai supporter page.
+I've pasted my profile content below from my online profiles.
 
-**Step 4:** Answer the agent's questions, confirm your config, deploy.
+Please do the following:
 
-> [!TIP]
-> Want custom colors? Just tell your AI agent: "Change the accent 
-> color to [your color] by updating the CSS variables in index.css" 
-> - it'll handle the rest in seconds and you can customize the theme to your like!
+1. Read through everything I've pasted and extract the following:
+   - My name
+   - A short bio (one or two lines, friendly and human)
+   - My avatar/profile image if mentioned or linked
+   - My social links (GitHub, LinkedIn, Twitter, website)
+   - My best projects worth pinning — name, description, link, and preview image if available
 
+2. Before writing anything, show me what you found and confirm with me:
+   - Which projects should be pinned and in what order?
+   - Is the bio accurate or should it be reworded?
+   - Ask me if I have a profile photo or avatar I want to use
+   - Ask me if I have any gallery images I want to show
+   - Ask me what thank you message I want supporters to see after they pay
+
+3. Once I've confirmed everything, write it all to `chai.config.js` only. Do not touch any other file. The structure of `chai.config.js` is already in the repo — follow it exactly, just fill in my real values.
+
+4. Rename the personal badge in `public/badges/personal.svg` — replace the placeholder name with my actual name.
+
+5. Once done, verify the full flow:
+   - Does the page load correctly?
+   - Does the payment modal open?
+   - Does the thank you screen appear on success?
+
+6. Give me a clean summary of everything that was added and what my next step is to deploy.
+
+Important rules you must follow:
+- Only edit `chai.config.js` and the personal badge — nothing else
+- Never ask for or use a secret or private key
+- If any information is missing from what I pasted, ask me directly rather than guessing or making something up
+- Always confirm with me before writing anything to any file
+- Do not assume I use any specific platform — work with whatever content I provide
 
 ---
-## 🔌 Add to your README
 
-Choose a badge style that fits your project's aesthetic:
+[PASTE YOUR PROFILE CONTENT HERE — from any platform, any format, just copy and paste the text]
+```
+
+**Step 4:** Confirm the config the agent puts together, then deploy.
+
+> [!TIP]
+> Want to change the accent color? Tell the agent: "Change the accent color to [color] by updating the CSS variables in index.css" and it'll handle it.
+
+---
+
+## Add to Your README
+
+Five badge styles available:
 
 | Style | Preview |
 | :--- | :--- |
@@ -236,64 +244,77 @@ Choose a badge style that fits your project's aesthetic:
 [![Support](https://img.shields.io/badge/Support-Buy4Chai-8B5E3C?style=for-the-badge&logo=coffee&logoColor=white)](https://your-deployment-url.vercel.app)
 ```
 
-*(Replace `your-deployment-url.vercel.app` with your actual live URL).*
+Replace `your-deployment-url.vercel.app` with your actual URL.
 
 > [!TIP]
-> For the **Bento-Box** style, use your own deployment link (e.g., `https://your-name.vercel.app/badges/personal.svg`) as the image source for full control over your branding.
+> For the Bento-Box style, use your own deployment as the image source (e.g. `https://your-name.vercel.app/badges/personal.svg`) so the badge shows your name, not the placeholder.
 
 ---
 
+## Not Just India
 
-## 🌍 Not Just India
+This started as a fix for Indian developers who couldn't use Stripe. But the same problem shows up everywhere. If you build a gateway adapter for your region, open a PR and we'll add it here.
 
-Buy4Chai started as a fix for Indian developers locked out of Stripe. But "locked out of Stripe" describes most of the developer world:
+<table>
+<tr>
+<td valign="top" width="55%">
 
-- **Latin America** — Stripe limited; PIX, Mercado Pago, dLocal dominate
-- **Africa** — M-Pesa, Flutterwave, Paystack
-- **Southeast Asia** — Midtrans, GoPay, GCash
-- **MENA** — PayTabs, Tap, HyperPay
+| Region | Common gateways |
+|---|---|
+| Latin America | PIX, Mercado Pago, dLocal |
+| Africa | M-Pesa, Flutterwave, Paystack |
+| Southeast Asia | Midtrans, GoPay, GCash |
+| MENA | PayTabs, Tap, HyperPay |
 
-If you ship Buy4Chai with a gateway adapter for your region, open a PR — we'll feature your country in the README if you want.
+</td>
+<td valign="top" width="45%">
 
----
-
-## 📊 Adapters in the wild
+**Adapters in the Wild**
 
 | Project | Gateway |
 |---|---|
 | @vassu-v | Razorpay |
-| _(yours here — open a PR)_ | |
+| *(yours here - open a PR)* | |
+
+</td>
+</tr>
+</table>
 
 ---
 
+## Architecture
 
-## 💖 Loved and Supported by the Community
+<table>
+<tr>
+<td valign="top" width="55%">
+
+React 18, Vite, Tailwind CSS, Framer Motion. Fully static - no server.
+
+- **[Master Manifesto](docs/master.md)** - the why behind the project and the roadmap
+- **[Design System](docs/design.md)** - tokens and component structure
+- **[Gateway Contract](docs/gateway.md)** - how to add a new gateway in about 10 minutes
+
+</td>
+<td valign="top" width="45%">
+
+| Layer | Tech |
+|---|---|
+| UI | React 18 |
+| Build | Vite |
+| Styling | Tailwind CSS |
+| Animation | Framer Motion |
+| Deployment | Vercel / Netlify / GitHub Pages |
+
+</td>
+</tr>
+</table>
+
+---
 
 <div align="center">
-  <img src="screenshots/community_1.png" alt="Community feedback 1" width="45%" />
-  <img src="screenshots/community_2.png" alt="Community feedback 2" width="45%" />
-  <br>
-  <img src="screenshots/community_3.png" alt="Community feedback 3" width="70%" />
-</div>
-
----
-
-## 🏗️ Architecture
-
-Built with **React 18, Vite, Tailwind CSS, and Framer Motion**.
-
-- **[Master Manifesto](docs/master.md)** — The "Why" and the roadmap.
-- **[Design System](docs/design.md)** — The tokens and component architecture.
-- **[Gateway Contract](docs/gateway.md)** — How to add a new payment gateway in 10 minutes.
-
----
-
-<div align="center">
-  <p>Built for the Open Source Community 🌍</p>
-  <p>
-    <a href="https://buy4chai-vassu-v.vercel.app/">
-      <img src="https://buy4chai-vassu-v.vercel.app/badges/personal.svg" alt="Support & Make Badge" />
-    </a>
-  </p>
-  <p><i>If this helps you, consider giving it a ⭐</i></p>
+  <p>Built for the open source community.</p>
+  <a href="https://buy4chai-vassu-v.vercel.app/">
+    <img src="https://buy4chai-vassu-v.vercel.app/badges/personal.svg" alt="Support Badge" />
+  </a>
+  <p><i>If this helped you, a star goes a long way.</i></p>
 </div>
