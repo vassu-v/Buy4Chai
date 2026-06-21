@@ -251,7 +251,11 @@ Replace `your-deployment-url.vercel.app` with your actual URL.
 
 ## Not Just India
 
-This started as a fix for Indian developers who couldn't use Stripe. But the same problem shows up everywhere:
+This started as a fix for Indian developers who couldn't use Stripe. But the same problem shows up everywhere. If you build a gateway adapter for your region, open a PR and we'll add it here.
+
+<table>
+<tr>
+<td valign="top" width="55%">
 
 | Region | Common gateways |
 |---|---|
@@ -260,20 +264,27 @@ This started as a fix for Indian developers who couldn't use Stripe. But the sam
 | Southeast Asia | Midtrans, GoPay, GCash |
 | MENA | PayTabs, Tap, HyperPay |
 
-If you build a gateway adapter for your region, open a PR and we'll add it here.
+</td>
+<td valign="top" width="45%">
 
----
-
-## Adapters in the Wild
+**Adapters in the Wild**
 
 | Project | Gateway |
 |---|---|
 | @vassu-v | Razorpay |
 | *(yours here - open a PR)* | |
 
+</td>
+</tr>
+</table>
+
 ---
 
 ## Architecture
+
+<table>
+<tr>
+<td valign="top" width="55%">
 
 React 18, Vite, Tailwind CSS, Framer Motion. Fully static - no server.
 
@@ -281,9 +292,8 @@ React 18, Vite, Tailwind CSS, Framer Motion. Fully static - no server.
 - **[Design System](docs/design.md)** - tokens and component structure
 - **[Gateway Contract](docs/gateway.md)** - how to add a new gateway in about 10 minutes
 
----
-
-## Tech Stack
+</td>
+<td valign="top" width="45%">
 
 | Layer | Tech |
 |---|---|
@@ -293,12 +303,9 @@ React 18, Vite, Tailwind CSS, Framer Motion. Fully static - no server.
 | Animation | Framer Motion |
 | Deployment | Vercel / Netlify / GitHub Pages |
 
-## Links
-
-| Resource | URL |
-| ------------ | --------------------------------------- |
-| Landing Page | https://land-chai.vercel.app/ |
-| Live Preview | https://land-chai.vercel.app/playground |
+</td>
+</tr>
+</table>
 
 ---
 
