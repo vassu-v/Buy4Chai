@@ -75,6 +75,11 @@ export default function SupporterPage({ dark, toggleDark }) {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
+  useEffect(() => {
+    document.body.style.overflow = (showPayment || success) ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [showPayment, success]);
+
   const selectPreset = (amt) => { setSelected(amt); setCustom(''); setError(''); setIsCustomMode(false); setShowUPIQR(false); };
   const enableCustom = () => { setIsCustomMode(true); setSelected(null); setError(''); setShowUPIQR(false); };
   const onCustom     = (e)   => { setCustom(e.target.value); setError(''); setShowUPIQR(false); };
@@ -322,20 +327,21 @@ export default function SupporterPage({ dark, toggleDark }) {
       {/* Checkout Modal Overlay */}
       <AnimatePresence>
         {showPayment && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="fixed inset-0 z-50 overflow-y-auto">
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setShowPayment(false)}
-              className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+              className="fixed inset-0 bg-black/60 backdrop-blur-sm"
             />
 
+            <div className="flex min-h-full items-center justify-center p-4">
             <motion.div
               initial={{ opacity: 0, scale: 0.9, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              className="relative w-full max-w-md theme-card border rounded-[2.5rem] p-8 shadow-2xl overflow-hidden"
+              className="relative w-full max-w-md theme-card border rounded-[2.5rem] p-8 shadow-2xl my-4"
             >
               <button
                 onClick={() => { setShowPayment(false); setShowUPIQR(false); }}
@@ -439,10 +445,10 @@ export default function SupporterPage({ dark, toggleDark }) {
                 <div className="mb-8">
                   <button
                     onClick={enableCustom}
-                    className={`w-full flex items-center justify-between p-4 rounded-2xl border transition-all ${isCustomMode ? 'border-[var(--text-primary)] bg-[var(--bg)] ring-2 ring-[var(--text-primary)]/10' : 'border-[var(--card-border)] bg-[var(--input-bg)] hover:bg-[var(--bg-subtle)]'}`}
+                    className={`w-full flex items-center justify-between p-4 rounded-2xl border transition-all ${isCustomMode ? 'border-chai-500 bg-[var(--bg)] ring-2 ring-chai-500/10' : 'border-[var(--card-border)] bg-[var(--input-bg)] hover:bg-[var(--bg-subtle)]'}`}
                   >
-                    <span className={`font-bold text-sm ${isCustomMode ? 'text-[var(--text-primary)]' : 'text-[var(--text-muted)]'}`}>Custom Amount (USD)</span>
-                    {isCustomMode && <Check size={18} className="text-[var(--text-primary)]" />}
+                    <span className={`font-bold text-sm ${isCustomMode ? 'text-chai-500' : 'text-[var(--text-muted)]'}`}>Custom Amount (USD)</span>
+                    {isCustomMode && <Check size={18} className="text-chai-500" />}
                   </button>
                   <AnimatePresence>
                     {isCustomMode && (
@@ -458,7 +464,7 @@ export default function SupporterPage({ dark, toggleDark }) {
                             placeholder="0.00"
                             value={custom}
                             onChange={onCustom}
-                            className="w-full bg-[var(--input-bg)] text-[var(--text-primary)] text-2xl font-black pl-10 pr-6 py-4 rounded-2xl border border-[var(--card-border)] focus:outline-none focus:border-[var(--text-primary)] transition-all placeholder:text-[var(--text-faint)]"
+                            className="w-full bg-[var(--input-bg)] text-[var(--text-primary)] text-2xl font-black pl-10 pr-6 py-4 rounded-2xl border border-[var(--card-border)] focus:outline-none focus:border-chai-500 transition-all placeholder:text-[var(--text-faint)]"
                           />
                           <div className="mt-2 text-right text-xs font-bold text-[var(--text-muted)]">
                             ≈ {formatCurrency(Math.round((parseFloat(custom) || 0) * exchangeRate), primaryCurrency)}
@@ -518,7 +524,7 @@ export default function SupporterPage({ dark, toggleDark }) {
                     onClick={handleUPI}
                     className="w-full bg-[var(--input-bg)] text-[var(--text-primary)] border border-[var(--card-border)] py-4 rounded-2xl text-base font-black hover:bg-[var(--bg-subtle)] transition-all flex items-center justify-center gap-2 group"
                   >
-                    <Zap size={18} className="text-amber-500 fill-amber-500 group-hover:scale-110 transition-transform" />
+                    <Zap size={18} className="text-chai-500 fill-chai-500 group-hover:scale-110 transition-transform" />
                     Pay with UPI (INR)
                   </button>
                 </div>
@@ -530,6 +536,7 @@ export default function SupporterPage({ dark, toggleDark }) {
                 </>
               )}
             </motion.div>
+            </div>
           </div>
         )}
       </AnimatePresence>
@@ -537,11 +544,12 @@ export default function SupporterPage({ dark, toggleDark }) {
       {/* Success State Overlay */}
       <AnimatePresence>
         {success && (
-          <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+          <div className="fixed inset-0 z-[60] overflow-y-auto bg-black/80 backdrop-blur-md">
+            <div className="flex min-h-full items-center justify-center p-4">
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="max-w-md w-full theme-card border rounded-[3rem] p-10 flex flex-col items-center text-center shadow-2xl"
+              className="max-w-md w-full theme-card border rounded-[3rem] p-10 flex flex-col items-center text-center shadow-2xl my-4"
             >
               <div className="w-20 h-20 bg-chai-100 dark:bg-chai-900/50 rounded-full flex items-center justify-center mb-8">
                 <Heart size={40} className="text-chai-600 fill-chai-600 animate-pulse" />
@@ -557,6 +565,7 @@ export default function SupporterPage({ dark, toggleDark }) {
                 Back to Story
               </button>
             </motion.div>
+            </div>
           </div>
         )}
       </AnimatePresence>
@@ -575,7 +584,7 @@ export default function SupporterPage({ dark, toggleDark }) {
           <div className="flex items-center gap-6 text-[10px] font-bold text-[var(--text-faint)] uppercase tracking-widest">
             <span className="flex items-center gap-1.5">Made with <Heart size={10} className="text-red-500 fill-red-500"/> in India</span>
             <span>•</span>
-            <a href="https://github.com/vassu-v/BuyMeAChai" className="hover:text-[var(--text-primary)] transition-colors">Open Source</a>
+            <a href="https://github.com/vassu-v/Buy4Chai" target="_blank" rel="noopener noreferrer" className="hover:text-[var(--text-primary)] transition-colors">Open Source</a>
           </div>
         </div>
       </footer>

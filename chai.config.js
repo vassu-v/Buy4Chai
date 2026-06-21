@@ -74,6 +74,8 @@ export default {
   defaultAmount: 5, 
   
   accentColor: "#8B5E3C",
+  darkBg:      "#18130E",
+  lightBg:     "#FDF8F3",
   thankYouMessage: "You made my day! Your support keeps me motivated to build and share more.",
 
   // --- Admin & Security ---
