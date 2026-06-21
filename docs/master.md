@@ -271,10 +271,11 @@ Warm brown/amber tones. High fidelity Chai glass. Clean, minimal. Inspired by sh
 ```
 /
 ├── README.md                  — Quick start (fork → config → deploy → badge)
-├── master.md                  — This file. Every decision and nuance.
-├── design.md                  — Design system, tokens, and component architecture.
-├── gateway.md                 — Integration contract + Razorpay reference + Dodo example + AI prompt
 ├── chai.config.js             — Config file (the thing developers edit)
+├── docs/
+│   ├── master.md              — This file. Every decision and nuance.
+│   ├── design.md              — Design system, tokens, and component architecture.
+│   └── gateway.md             — Integration contract + Razorpay reference + Dodo example + AI prompt
 ├── public/                    — Static assets (logo, badge, avatar)
 └── src/
     ├── SupporterPage.jsx      — Public facing UI

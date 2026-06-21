@@ -575,7 +575,7 @@ export default function SupporterPage({ dark, toggleDark }) {
           <div className="flex items-center gap-6 text-[10px] font-bold text-[var(--text-faint)] uppercase tracking-widest">
             <span className="flex items-center gap-1.5">Made with <Heart size={10} className="text-red-500 fill-red-500"/> in India</span>
             <span>•</span>
-            <a href="https://github.com/shoryasethia/BuyMeAChai" className="hover:text-[var(--text-primary)] transition-colors">Open Source</a>
+            <a href="https://github.com/vassu-v/BuyMeAChai" className="hover:text-[var(--text-primary)] transition-colors">Open Source</a>
           </div>
         </div>
       </footer>
