@@ -39,7 +39,7 @@ If you're a developer outside the US/UK/EU, you've probably run into this:
 
 The problem isn't accepting tips. It's that every tipping platform is built around one payment rail, and that rail usually isn't available where you live.
 
-Buy4Chai is just a static site. The payment gateway is whatever works in your country. You plug in your gateway, deploy once, and it runs.
+Buy4Chai is just a static site. The payment gateway is whatever works in your country. Plug in your gateway, deploy once, and it runs.
 
 ---
 
@@ -74,6 +74,17 @@ If your country has a gateway with API docs, it'll work here.
 
 ---
 
+## Loved by the Community
+
+<div align="center">
+  <img src="screenshots/community_1.png" alt="Community feedback 1" width="45%" />
+  <img src="screenshots/community_2.png" alt="Community feedback 2" width="45%" />
+  <br>
+  <img src="screenshots/community_3.png" alt="Community feedback 3" width="70%" />
+</div>
+
+---
+
 ## Quick Start
 
 ```bash
@@ -98,37 +109,31 @@ Should take about 10 minutes if you already have a gateway account.
 
 ---
 
-## You Own This
+## You Own It - Here's What That Gets You
 
-No SaaS, no account system, nothing between you and your supporters. Fork it, deploy it, and it runs on its own. If this repo disappears tomorrow, your deployment keeps working.
+No SaaS, no account system, nothing between you and your supporters. Fork it, deploy it, and it runs independently. If this repo disappears tomorrow, your deployment keeps working. That's not accidental - it's the point.
 
-That's not accidental - it's the point.
+Here's what you're actually working with:
 
----
+**The page**
 
-## Features
+| Section | What it does |
+| :--- | :--- |
+| Storytelling layout | A proper page for your work, not just a payment button. Space to say what you're building and why. |
+| Project showcase | Pin your best open-source work with preview cards. |
+| Dual currency | Set amounts in USD, get paid in your local currency. Supporters can toggle between currencies with live conversion. |
 
-- **Storytelling layout** - a full page for your work, not just a payment button. Space to explain what you're building and why people should care.
-- **Dual currency** - set your amounts in USD, get paid in your local currency. Supporters can toggle between currencies with live conversion.
+**Everything else**
+
 - **0% fees** - money goes directly from supporter to your gateway account. No platform taking a cut.
-- **Self-hosted** - deploy on Vercel, GitHub Pages, or Netlify for free. No extra accounts, no vendor lock-in.
-- **Setup wizard** - a 6-step guided wizard at `/#setup` that handles your profile, pinned projects, and gateway keys. Gated by a security key so it's safe to leave deployed.
+- **Self-hosted** - deploy on Vercel, GitHub Pages, or Netlify for free. No extra accounts, no lock-in.
+- **Setup wizard** - a 6-step guided wizard at `/#setup` that handles your profile, pinned projects, and gateway keys.
 
----
-
-## Security
+**Security**
 
 - **Public keys only** - the config only needs your public key ID. Safe to commit, safe to leave public.
-- **Wizard lockdown** - flip one toggle to disable the setup wizard once you're done configuring.
+- **Wizard lockdown** - flip one toggle to disable the setup wizard once you're done.
 - **Route protection** - the `/#setup` route requires a key only you know.
-
----
-
-## Page Layout
-
-| Storytelling | Project Showcase | Dual Currency |
-| :--- | :--- | :--- |
-| Build a narrative around your work. Let people know *why* they should support you. | Pin your best open-source projects with high-quality preview cards. | Automatic USD/Local conversion with a simple supporter-facing toggle. |
 
 ---
 
@@ -193,7 +198,7 @@ Important rules you must follow:
 [PASTE YOUR PROFILE CONTENT HERE — from any platform, any format, just copy and paste the text]
 ```
 
-**Step 4:** Answer the agent's questions, confirm the config, deploy.
+**Step 4:** Confirm the config the agent puts together, then deploy.
 
 > [!TIP]
 > Want to change the accent color? Tell the agent: "Change the accent color to [color] by updating the CSS variables in index.css" and it'll handle it.
@@ -265,17 +270,6 @@ If you build a gateway adapter for your region, open a PR and we'll add it here.
 |---|---|
 | @vassu-v | Razorpay |
 | *(yours here - open a PR)* | |
-
----
-
-## Community
-
-<div align="center">
-  <img src="screenshots/community_1.png" alt="Community feedback 1" width="45%" />
-  <img src="screenshots/community_2.png" alt="Community feedback 2" width="45%" />
-  <br>
-  <img src="screenshots/community_3.png" alt="Community feedback 3" width="70%" />
-</div>
 
 ---
 
