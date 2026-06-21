@@ -15,6 +15,8 @@
     <a href="#bring-your-own-gateway"><strong>BYO Gateway</strong></a> •
     <a href="https://buy4-chai.vercel.app/"><strong>View Template</strong></a> •
     <a href="https://buy4chai-vassu-v.vercel.app/"><strong>Live Demo</strong></a> •
+    <a href="https://land-chai.vercel.app/"><strong>Landing Page</strong></a> •
+    <a href="https://land-chai.vercel.app/playground"><strong>Live Preview</strong></a> •
     <a href="#why-this-exists"><strong>Why</strong></a>
   </p>
 
