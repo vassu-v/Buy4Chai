@@ -48,9 +48,9 @@ export default function AnimatedHeroDemo({ onComplete }) {
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!canvas) { onComplete?.(); return; }
     const ctx = canvas.getContext('2d');
-    if (!ctx) return;
+    if (!ctx) { onComplete?.(); return; }
 
     let animationFrameId;
     
