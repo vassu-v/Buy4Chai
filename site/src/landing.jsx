@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion, AnimatePresence, useInView, useMotionValue, useAnimationFrame, animate } from 'framer-motion';
 
 import {
-  Github, ArrowRight, ArrowUpRight, X, Shield,
+  Github, ArrowRight, ArrowUpRight, X,
   Zap, Code2, Star, Sun, Moon, ChevronLeft, ChevronRight
 } from 'lucide-react';
 import AnimatedHeroDemo from './AnimatedHeroDemo.jsx';
@@ -639,107 +639,142 @@ function HowItWorks({ t }) {
 
 /* ─── Live Preview ───────────────────────────────────────────── */
 
-function MiniPreview({ t, dark, name, bio, color }) {
-  const avatarBorder = dark ? '#0C0C0C' : '#FDF8F3';
+function FakeSidebar({ t, dark }) {
+  const [name,  setName]  = useState('Shoryavardhaan');
+  const [bio,   setBio]   = useState('Building open source tools.');
+  const [color, setColor] = useState('#F59E0B');
+
   return (
-    <div className={`rounded-2xl overflow-hidden shadow-2xl h-full ${t.card}`}>
-      <div className={`px-4 py-3 flex items-center gap-2.5 ${t.browserBar}`}>
-        <div className="flex gap-1.5">
-          <div className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]" />
-          <div className="w-2.5 h-2.5 rounded-full bg-[#febc2e]" />
-          <div className="w-2.5 h-2.5 rounded-full bg-[#28c840]" />
+    <motion.div
+      animate={{ y: [0, -9, 0] }}
+      transition={{ repeat: Infinity, duration: 3.6, ease: 'easeInOut', delay: 0.3 }}
+      className={`w-[200px] shrink-0 rounded-2xl overflow-hidden shadow-2xl border ${t.card}`}
+    >
+      {/* Title bar */}
+      <div className={`px-3 py-2.5 flex items-center gap-2 border-b ${dark ? 'bg-[#111] border-white/[0.06]' : 'bg-[#F0E4D4] border-[#E6D5C3]'}`}>
+        <div className="flex gap-1">
+          <div className="w-2 h-2 rounded-full bg-[#ff5f57]" />
+          <div className="w-2 h-2 rounded-full bg-[#febc2e]" />
+          <div className="w-2 h-2 rounded-full bg-[#28c840]" />
         </div>
-        <div className={`flex-1 mx-2 rounded px-2 py-1 text-[10px] font-mono ${t.browserUrl}`}>
-          {(name || 'yourname').toLowerCase().replace(/\s+/g, '')}.vercel.app
-        </div>
+        <span className={`text-[10px] font-semibold ${t.faint}`}>Customize</span>
       </div>
-      <div className={`p-6 flex flex-col items-center text-center gap-3.5 min-h-[280px] justify-center ${t.browserPage}`}>
-        <div className="w-16 h-16 rounded-2xl flex items-center justify-center text-2xl shadow-lg transition-all duration-300"
-          style={{ backgroundColor: color + '22', border: `1.5px solid ${color}44` }}>
-          ☕
+
+      <div className="p-3.5 space-y-3">
+        {/* Name */}
+        <div>
+          <label className={`text-[9px] font-black tracking-[0.15em] uppercase block mb-1 ${t.dimmer}`}>Name</label>
+          <input
+            value={name}
+            onChange={e => setName(e.target.value)}
+            maxLength={30}
+            className={`w-full text-xs px-2.5 py-1.5 rounded-lg border ${t.input}`}
+          />
         </div>
-        <div className="space-y-1">
-          <h3 className={`font-bold text-base truncate max-w-[220px] ${t.previewName}`}>{name || 'Your Name'}</h3>
-          <p className={`text-[11px] leading-relaxed max-w-[200px] line-clamp-2 ${t.previewBio}`}>{bio || 'Your bio goes here...'}</p>
+
+        {/* Bio */}
+        <div>
+          <label className={`text-[9px] font-black tracking-[0.15em] uppercase block mb-1 ${t.dimmer}`}>Bio</label>
+          <textarea
+            value={bio}
+            onChange={e => setBio(e.target.value)}
+            rows={2}
+            maxLength={80}
+            className={`w-full text-xs px-2.5 py-1.5 rounded-lg border resize-none leading-relaxed ${t.input}`}
+          />
         </div>
-        <button
-          className="w-full max-w-[220px] font-bold text-sm py-2.5 rounded-xl transition-all duration-300"
-          style={{ backgroundColor: color, color: '#000', boxShadow: `0 4px 14px ${color}30` }}
+
+        {/* Accent color */}
+        <div>
+          <label className={`text-[9px] font-black tracking-[0.15em] uppercase block mb-1.5 ${t.dimmer}`}>Color</label>
+          <div className="flex gap-1.5 flex-wrap mb-2">
+            {['#F59E0B','#10B981','#6366F1','#EC4899','#EF4444','#3B82F6'].map(c => (
+              <button
+                key={c}
+                onClick={() => setColor(c)}
+                className="w-4.5 h-4.5 rounded-full border-2 transition-all hover:scale-125"
+                style={{
+                  width: 18, height: 18,
+                  backgroundColor: c,
+                  borderColor: color === c ? (dark ? '#fff' : '#3D2B1F') : 'transparent',
+                }}
+              />
+            ))}
+          </div>
+          <div className="h-1 rounded-full transition-colors duration-300" style={{ backgroundColor: color }} />
+        </div>
+
+        {/* CTA */}
+        <Link
+          to={PLAYGROUND}
+          className="flex items-center justify-center gap-1.5 w-full text-[11px] font-bold py-2 rounded-lg transition-opacity hover:opacity-80"
+          style={{ backgroundColor: color, color: '#000' }}
         >
-          Buy me a chai ☕
-        </button>
-        <p className={`text-[9px] flex items-center gap-1 ${t.previewSafe}`}>
-          <Shield size={8} /> Secure. No platform fees.
-        </p>
+          Try live <ArrowRight size={11} />
+        </Link>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
 function LivePreview({ t, dark }) {
-  const [name,  setName]  = useState('Shoryavardhaan');
-  const [bio,   setBio]   = useState("Building open source tools that make developers' lives easier.");
-  const [color, setColor] = useState('#F59E0B');
-
-  const inputCls = `w-full border text-sm font-medium px-4 py-3 rounded-xl focus:ring-2 transition-all ${t.input}`;
-
   return (
     <section id="preview" className={`py-28 px-5 border-t ${t.divider} ${!dark && t.sectionAlt ? t.sectionAlt : ''}`}>
       <div className="max-w-6xl mx-auto">
-        <FadeUp className="text-center mb-14">
+        <FadeUp className="text-center mb-20">
           <SectionTag t={t}>Try it</SectionTag>
           <h2 className={`text-4xl md:text-5xl font-extrabold tracking-tight ${t.heading}`}>
-            See your page <span className={t.accent}>before you fork.</span>
+            See it live. <span className={t.accent}>Make it yours.</span>
           </h2>
-          <p className={`mt-4 max-w-sm mx-auto text-sm ${t.faint}`}>Type below. Watch it update live. Then fork and make it yours.</p>
+          <p className={`mt-4 max-w-sm mx-auto text-sm ${t.faint}`}>
+            Jump into the playground — customize colors, name, bio and watch it update in real time.
+          </p>
         </FadeUp>
 
-        <FadeUp delay={0.05}>
-          <div className="grid md:grid-cols-2 gap-6 items-start">
-            {/* Form */}
-            <div className={`space-y-4 p-7 rounded-2xl ${t.card}`}>
-              <div>
-                <label className={`text-xs font-semibold uppercase tracking-wider mb-2 block ${t.label}`}>Your Name</label>
-                <input type="text" value={name} onChange={e => setName(e.target.value)}
-                  placeholder="Shoryavardhaan" maxLength={40} className={inputCls} />
-              </div>
-              <div>
-                <label className={`text-xs font-semibold uppercase tracking-wider mb-2 block ${t.label}`}>Bio</label>
-                <textarea value={bio} onChange={e => setBio(e.target.value)}
-                  placeholder="One line about what you build..." rows={3} maxLength={120}
-                  className={`${inputCls} resize-none leading-relaxed`} />
-              </div>
-              <div>
-                <label className={`text-xs font-semibold uppercase tracking-wider mb-2 block ${t.label}`}>Accent Color</label>
-                <div className="flex items-center gap-3">
-                  <input type="color" value={color} onChange={e => setColor(e.target.value)}
-                    className="w-12 h-12 rounded-xl cursor-pointer p-0.5 border border-transparent" />
-                  <div className={`flex-1 border rounded-xl px-4 py-3 flex items-center gap-2 ${t.input}`}>
-                    <span className="text-sm font-mono">{color.toUpperCase()}</span>
-                    <div className="w-3 h-3 rounded-full border border-white/10" style={{ backgroundColor: color }} />
-                  </div>
-                </div>
-                <div className="flex gap-2 mt-3">
-                  {['#F59E0B','#10B981','#6366F1','#EC4899','#EF4444','#3B82F6'].map(c => (
-                    <button key={c} onClick={() => setColor(c)}
-                      className="w-6 h-6 rounded-full border-2 transition-all hover:scale-110"
-                      style={{ backgroundColor: c, borderColor: color === c ? (dark ? '#fff' : '#3D2B1F') : 'transparent' }} />
-                  ))}
-                </div>
-              </div>
-              <div className="pt-2">
-                <Btn t={t} href={FORK_URL} className="w-full justify-center text-sm py-3 px-5 rounded-xl">
-                  Fork &amp; Deploy Yours <ArrowRight size={15} />
-                </Btn>
-                <p className={`text-center text-xs mt-3 ${t.dimmer}`}>Free forever. No account needed.</p>
-              </div>
-            </div>
+        <FadeUp delay={0.06}>
+          <div className="flex items-center justify-center gap-5 md:gap-8">
 
-            {/* Preview */}
-            <div className="md:sticky md:top-24">
-              <MiniPreview t={t} dark={dark} name={name} bio={bio} color={color} />
-            </div>
+            {/* Dark screenshot — leans left, floats upward */}
+            <Link to={PLAYGROUND} className="block shrink-0 group">
+              <motion.div
+                style={{ rotate: -6 }}
+                animate={{ y: [6, -12, 6] }}
+                transition={{ repeat: Infinity, duration: 4.2, ease: 'easeInOut' }}
+                whileHover={{ scale: 1.04, transition: { duration: 0.22 } }}
+                className={`w-[260px] md:w-[380px] rounded-2xl overflow-hidden shadow-2xl border cursor-pointer ${
+                  dark ? 'border-white/10' : 'border-white/20'
+                }`}
+              >
+                <img src="/Screenshot_2026-06-21_17-37-00.png" alt="Buy4Chai dark theme" className="w-full block" />
+              </motion.div>
+            </Link>
+
+            {/* Fake sidebar tool — upright, gentle bob */}
+            <FakeSidebar t={t} dark={dark} />
+
+            {/* Light screenshot — leans right, floats downward */}
+            <Link to={PLAYGROUND} className="block shrink-0 group">
+              <motion.div
+                style={{ rotate: 6 }}
+                animate={{ y: [-10, 8, -10] }}
+                transition={{ repeat: Infinity, duration: 3.8, ease: 'easeInOut', delay: 0.7 }}
+                whileHover={{ scale: 1.04, transition: { duration: 0.22 } }}
+                className={`w-[260px] md:w-[380px] rounded-2xl overflow-hidden shadow-2xl border cursor-pointer ${
+                  dark ? 'border-white/10' : 'border-black/[0.08]'
+                }`}
+              >
+                <img src="/Screenshot_2026-06-21_17-37-07.png" alt="Buy4Chai light theme" className="w-full block" />
+              </motion.div>
+            </Link>
+
           </div>
+        </FadeUp>
+
+        <FadeUp delay={0.14} className="text-center mt-16">
+          <Btn t={t} href={PLAYGROUND} className="text-base px-7 py-3">
+            Open Playground <ArrowRight size={16} />
+          </Btn>
+          <p className={`mt-3 text-xs ${t.dimmer}`}>No account. No fork required to preview.</p>
         </FadeUp>
       </div>
     </section>
