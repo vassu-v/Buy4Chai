@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import {
   User, Link2, CreditCard, Paintbrush, Code2,
@@ -7,6 +7,82 @@ import {
   AlertTriangle, Info, CheckCircle2, Zap, Shield, Image as ImageIcon,
   MessageSquare, Coffee, Plus, Trash2, DollarSign, Sun, Moon
 } from 'lucide-react';
+
+/* ── Color picker swatches (mirror of Playground.jsx) ─────────── */
+const ACCENT_SWATCHES = [
+  { name: 'Chai',   hex: '#8B5E3C' },
+  { name: 'Amber',  hex: '#F59E0B' },
+  { name: 'Blue',   hex: '#3B82F6' },
+  { name: 'Green',  hex: '#10B981' },
+  { name: 'Purple', hex: '#8B5CF6' },
+  { name: 'Pink',   hex: '#EC4899' },
+];
+const DARK_BG_SWATCHES = [
+  { name: 'Espresso', hex: '#18130E' },
+  { name: 'Charcoal', hex: '#0F172A' },
+  { name: 'Graphite', hex: '#111827' },
+  { name: 'Obsidian', hex: '#09090B' },
+  { name: 'Forest',   hex: '#0A1A0F' },
+  { name: 'Navy',     hex: '#0C1120' },
+];
+const LIGHT_BG_SWATCHES = [
+  { name: 'Cream',    hex: '#FDF8F3' },
+  { name: 'White',    hex: '#FFFFFF' },
+  { name: 'Linen',    hex: '#FAF0E6' },
+  { name: 'Mint',     hex: '#F0FDF4' },
+  { name: 'Lavender', hex: '#F5F3FF' },
+  { name: 'Sky',      hex: '#F0F9FF' },
+];
+
+function isLight(hex) {
+  const h = hex.replace('#','');
+  const r = parseInt(h.slice(0,2),16), g = parseInt(h.slice(2,4),16), b = parseInt(h.slice(4,6),16);
+  return (r*299 + g*587 + b*114)/1000 > 128;
+}
+
+function ColorPickerRow({ label, swatches, value, onChange, pickerRef }) {
+  const isCustom = !swatches.some(s => s.hex.toLowerCase() === value.toLowerCase());
+  return (
+    <div className="space-y-2">
+      <div className="flex items-center justify-between">
+        <label className="text-xs font-semibold uppercase tracking-wider theme-muted">{label}</label>
+        <span className="text-xs font-mono theme-muted">{value.toUpperCase()}</span>
+      </div>
+      <div className="flex items-center gap-2 flex-wrap">
+        {swatches.map(s => {
+          const active = s.hex.toLowerCase() === value.toLowerCase();
+          return (
+            <button key={s.hex} onClick={() => onChange(s.hex)} title={s.name}
+              className="relative w-7 h-7 rounded-full transition-all hover:scale-110 shrink-0"
+              style={{
+                backgroundColor: s.hex,
+                outline: active ? '2px solid var(--text-primary)' : '2px solid transparent',
+                outlineOffset: '2px',
+                boxShadow: active ? `0 0 8px ${s.hex}90` : 'none',
+              }}
+            >
+              {active && (
+                <span className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                  <Check size={10} strokeWidth={3} style={{ color: isLight(s.hex) ? '#000' : '#fff' }}/>
+                </span>
+              )}
+            </button>
+          );
+        })}
+        <button onClick={() => pickerRef.current?.click()} title="Custom color"
+          className="relative w-7 h-7 rounded-full transition-all hover:scale-110 shrink-0 overflow-hidden"
+          style={{
+            background: 'conic-gradient(from 0deg, #ff0000, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff, #ff0000)',
+            outline: isCustom ? '2px solid var(--text-primary)' : '2px solid transparent',
+            outlineOffset: '2px',
+          }}
+        />
+        <input ref={pickerRef} type="color" value={value} onChange={e => onChange(e.target.value)}
+          className="sr-only" tabIndex={-1} aria-hidden="true"/>
+      </div>
+    </div>
+  );
+}
 
 /**
  * Setup Wizard Steps Definition
@@ -376,6 +452,10 @@ function GatewayStep({ data, set, errors }) {
 /* ---- Step 5: Customize ---- */
 
 function CustomizeStep({ data, set, errors }) {
+  const accentRef  = useRef(null);
+  const darkBgRef  = useRef(null);
+  const lightBgRef = useRef(null);
+
   return (
     <div className="space-y-4">
       <div className="grid grid-cols-2 gap-4">
@@ -429,6 +509,41 @@ function CustomizeStep({ data, set, errors }) {
         <Textarea value={data.thankYouMessage} onChange={v => set('thankYouMessage', v)} rows={2}
           placeholder="You made my day!"/>
       </Field>
+
+      {/* ── Brand Colors ── */}
+      <div className="pt-4 border-t border-[var(--card-border)]/50 space-y-5">
+        <div className="flex items-center gap-2 mb-1">
+          <Paintbrush size={15} className="text-chai-500"/>
+          <p className="text-sm font-bold theme-text">Brand Colors</p>
+        </div>
+        <InfoBox icon={Info} color="blue" title="Same colors as the Playground">
+          These map directly to the three color pickers you saw in the live preview. Your generated config will include all three so your page looks exactly like you designed it.
+        </InfoBox>
+
+        <div className="theme-input border rounded-2xl p-4 space-y-5">
+          <ColorPickerRow
+            label="Accent Color"
+            swatches={ACCENT_SWATCHES}
+            value={data.accentColor}
+            onChange={v => set('accentColor', v)}
+            pickerRef={accentRef}
+          />
+          <ColorPickerRow
+            label="Dark Theme Background"
+            swatches={DARK_BG_SWATCHES}
+            value={data.darkBg}
+            onChange={v => set('darkBg', v)}
+            pickerRef={darkBgRef}
+          />
+          <ColorPickerRow
+            label="Light Theme Background"
+            swatches={LIGHT_BG_SWATCHES}
+            value={data.lightBg}
+            onChange={v => set('lightBg', v)}
+            pickerRef={lightBgRef}
+          />
+        </div>
+      </div>
     </div>
   );
 }
@@ -470,6 +585,9 @@ function ConfigStep({ data }) {
     `  suggestedAmounts: ${JSON.stringify(data.suggestedAmounts)},`,
     `  defaultAmount: ${data.defaultAmount},`,
     `  thankYouMessage: "${data.thankYouMessage}",`,
+    `  accentColor: "${data.accentColor}",`,
+    `  darkBg: "${data.darkBg}",`,
+    `  lightBg: "${data.lightBg}",`,
     `  showSetup: false, // Set to true to re-enable the /#setup route`,
     `  setupKey: "${Math.random().toString(36).substring(2, 10)}", // Secret key for /#setup?key=...`,
     '}'
@@ -515,6 +633,9 @@ export default function SetupPage({ dark, toggleDark }) {
     currency: 'INR', displayCurrency: 'USD', exchangeRate: 83.5,
     suggestedAmounts: [2, 5, 10, 25], defaultAmount: 5,
     thankYouMessage: '',
+    accentColor: '#8B5E3C',
+    darkBg: '#18130E',
+    lightBg: '#FDF8F3',
   });
 
   const [errors, setErrors] = useState({});

@@ -47,14 +47,14 @@ The problem isn't tipping. It's that every tipping platform is welded to one pay
 
 Most tip platforms are welded to Stripe. Buy4Chai is welded to nothing.
 
-The project defines a formal **Gateway Contract** in [`gateway.md`](./gateway.md):
+The project defines a formal **Gateway Contract** in [`docs/gateway.md`](./docs/gateway.md):
 - **Tier 1** — Redirect flow (any gateway with a hosted checkout URL)
 - **Tier 2** — SDK flow (any gateway with a JS SDK)
 - 100% static, zero backend, public keys only
 
 To add a new gateway, you don't wait for a PR. You don't file an issue. You paste this prompt into Claude / Cursor / Antigravity along with the gateway's docs:
 
-> "Read `gateway.md` and the attached documentation for [Gateway Name]. Follow the architectural best practices and the 'Gateway Contract' defined in `gateway.md`. Decide whether to follow the Tier 1 (Redirect) or Tier 2 (SDK) flow based on the provided docs. Implement `src/gateways/[name].js` ensuring 100% static compliance and zero-backend logic."
+> "Read `docs/gateway.md` and the attached documentation for [Gateway Name]. Follow the architectural best practices and the 'Gateway Contract' defined in `docs/gateway.md`. Decide whether to follow the Tier 1 (Redirect) or Tier 2 (SDK) flow based on the provided docs. Implement `src/gateways/[name].js` ensuring 100% static compliance and zero-backend logic."
 >
 > **User Tip:** Just clone this repo, open your AI agent, attach your payment gateway's documentation, and let the agent run. Provide it with your Public Key ID when asked, and you're ready to host. Simple as that.
 
@@ -282,9 +282,9 @@ If you ship Buy4Chai with a gateway adapter for your region, open a PR — we'll
 
 Built with **React 18, Vite, Tailwind CSS, and Framer Motion**.
 
-- **[Master Manifesto](master.md)** — The "Why" and the roadmap.
-- **[Design System](design.md)** — The tokens and component architecture.
-- **[Gateway Contract](gateway.md)** — How to add a new payment gateway in 10 minutes.
+- **[Master Manifesto](docs/master.md)** — The "Why" and the roadmap.
+- **[Design System](docs/design.md)** — The tokens and component architecture.
+- **[Gateway Contract](docs/gateway.md)** — How to add a new payment gateway in 10 minutes.
 
 ---
 

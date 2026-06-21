@@ -22,7 +22,7 @@ export default {
     {
       name: "Buy Me a Chai",
       description: "A self-hosted, gateway-agnostic supporter page for Indian developers. Zero fees, 10-minute setup.",
-      link: "https://github.com/shoryasethia/BuyMeAChai",
+      link: "https://github.com/vassu-v/BuyMeAChai",
       image: "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&q=80&w=400"
     },
     {
@@ -74,6 +74,8 @@ export default {
   defaultAmount: 5, 
   
   accentColor: "#8B5E3C",
+  darkBg:      "#18130E",
+  lightBg:     "#FDF8F3",
   thankYouMessage: "You made my day! Your support keeps me motivated to build and share more.",
 
   // --- Admin & Security ---

@@ -28,8 +28,8 @@ This guide will get you from zero to your first PR in under 15 minutes.
 
 Before writing a single line, read these two things:
 
-- `master.md` — the why behind every decision
-- `gateway.md` — the contract every gateway must follow
+- `docs/master.md` — the why behind every decision
+- `docs/gateway.md` — the contract every gateway must follow
 
 Buy4Chai is **fully static**. No backend, no server, no secret keys — ever. If your contribution requires any of those, it's out of scope for now. Keep friction low, keep it forkable, keep it yours.
 
@@ -76,9 +76,10 @@ Buy4Chai/
 │   ├── logo.svg
 │   └── avatar.png
 ├── chai.config.js         ← The only file a developer needs to edit
-├── master.md              ← Philosophy and decisions log
-├── design.md              ← Design system and component architecture
-└── gateway.md             ← Gateway integration contract
+└── docs/
+    ├── master.md          ← Philosophy and decisions log
+    ├── design.md          ← Design system and component architecture
+    └── gateway.md         ← Gateway integration contract
 ```
 
 The most important file for contributors is whichever one your issue touches. Always read the relevant `.md` doc before touching code.
@@ -91,7 +92,7 @@ The most important file for contributors is whichever one your issue touches. Al
 Look for issues labeled `good first issue`. These are scoped, well-documented, and won't require you to understand the entire codebase. A good example is the color picker in `SetupPage.jsx` — it's self-contained and the acceptance criteria are clear.
 
 ### Gateway Integrations
-Adding a new payment gateway is the highest-value contribution. Read `gateway.md` completely before starting. The AI prompt in Part 10 of that file will generate a solid starting point for you.
+Adding a new payment gateway is the highest-value contribution. Read `docs/gateway.md` completely before starting. The AI prompt in Part 10 of that file will generate a solid starting point for you.
 
 ### UI Improvements
 The supporter page and setup wizard are intentionally minimal. Improvements are welcome as long as they don't increase configuration complexity or break the 10-minute onboarding target. If in doubt, open a discussion issue first.
@@ -103,9 +104,9 @@ Docs are a first-class contribution here. If something confused you, it'll confu
 
 ## Adding a Payment Gateway
 
-Read `gateway.md` completely before starting — it has the full contract, tier system, decision tree, and reference implementations.
+Read `docs/gateway.md` completely before starting — it has the full contract, tier system, decision tree, and reference implementations.
 
-The fastest way to add a new gateway is the AI prompt in `gateway.md` Part 10. Paste it into Claude or Copilot with your gateway's docs attached and it'll generate a compliant implementation for you.
+The fastest way to add a new gateway is the AI prompt in `docs/gateway.md` Part 10. Paste it into Claude or Copilot with your gateway's docs attached and it'll generate a compliant implementation for you.
 
 Once done, add your gateway to the table in Part 8 and document it in Part 6. That's the only hard requirement for the PR to be merged.
 
@@ -155,7 +156,7 @@ Beyond that:
 - [ ] `npm run build` completes without errors
 - [ ] Supporter page renders correctly in both light and dark mode
 - [ ] Setup wizard still generates valid `chai.config.js` output
-- [ ] If you added a gateway — `gatewayCapabilities` is exported and documented in `gateway.md`
+- [ ] If you added a gateway — `gatewayCapabilities` is exported and documented in `docs/gateway.md`
 - [ ] No secret keys, no backend calls, no localStorage usage anywhere
 - [ ] No unicode characters (curly quotes, arrows) inside JSX text nodes — use HTML entities or ASCII
 - [ ] CSS theming uses CSS variables (`var(--text-primary)`) not hardcoded colors or Tailwind `dark:` classes
@@ -187,7 +188,7 @@ Beyond that:
 
 Stuck? Open an issue or comment on the one you're working on. Tag `@vassu-v` and you'll get a response fast.
 
-If you're adding a gateway and need help understanding the contract, the AI prompt in `gateway.md` Part 10 is genuinely useful — paste it into Claude or Copilot with your gateway's docs attached.
+If you're adding a gateway and need help understanding the contract, the AI prompt in `docs/gateway.md` Part 10 is genuinely useful — paste it into Claude or Copilot with your gateway's docs attached.
 
 ---
 

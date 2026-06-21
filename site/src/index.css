@@ -1,0 +1,79 @@
+@import 'https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Theme tokens (for SupporterPage / Playground) ─────────────── */
+:root {
+  --bg:           #FDF8F3;
+  --bg-subtle:    #F5EDE2;
+  --card:         #FFFFFF;
+  --card-border:  #E6D5C3;
+  --input-bg:     #F5EDE2;
+  --text-primary: #3D2B1F;
+  --text-muted:   #7C6A5B;
+  --text-faint:   #A89080;
+}
+
+.dark {
+  --bg:           #18130E;
+  --bg-subtle:    #211810;
+  --card:         #241B13;
+  --card-border:  #3D2F24;
+  --input-bg:     #2E2118;
+  --text-primary: #F5EDE2;
+  --text-muted:   #C2A88C;
+  --text-faint:   #7C6550;
+}
+
+.theme-bg        { background-color: var(--bg); }
+.theme-card      { background-color: var(--card); border-color: var(--card-border); }
+.theme-input     { background-color: var(--input-bg); border-color: var(--card-border); color: var(--text-primary); }
+.theme-text      { color: var(--text-primary); }
+.theme-muted     { color: var(--text-muted); }
+.theme-faint     { color: var(--text-faint); }
+
+* {
+  scroll-behavior: smooth;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #0A0A0A;
+  color: #ffffff;
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #0A0A0A; }
+::-webkit-scrollbar-thumb { background: #2A2A2A; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #3A3A3A; }
+
+/* Noise grain overlay on hero */
+.noise-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  opacity: 0.4;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Glow utilities */
+.glow-amber {
+  box-shadow: 0 0 40px rgba(245, 158, 11, 0.15), 0 0 80px rgba(245, 158, 11, 0.05);
+}
+
+.text-glow-amber {
+  text-shadow: 0 0 30px rgba(245, 158, 11, 0.4);
+}
+
+/* Input focus ring */
+input:focus, textarea:focus {
+  outline: none;
+}
