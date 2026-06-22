@@ -343,8 +343,10 @@ function Nav({ t, dark, setDark }) {
           >
             {dark ? <Sun size={15} /> : <Moon size={15} />}
           </button>
-          <Btn t={t} href={PLAYGROUND}>
-            Try it live <ArrowRight size={14} />
+          <Btn t={t} href={PLAYGROUND} className="px-3 md:px-5">
+            <span className="hidden md:inline">Try it live</span>
+            <span className="md:hidden">Try it</span>
+            <ArrowRight size={14} />
           </Btn>
         </div>
       </div>
@@ -384,7 +386,7 @@ function Hero({ t, dark }) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className={`text-[clamp(2.6rem,7vw,5rem)] font-extrabold tracking-tight leading-[1.05] mb-5 ${t.heading}`}
+          className={`text-[clamp(2.2rem,8vw,5rem)] font-extrabold tracking-tight leading-[1.05] mb-5 ${t.heading}`}
         >
           The headless<br />
           <span className={`${dark ? 'text-amber-500' : 'text-amber-600'}`} style={{ textShadow: dark ? '0 0 30px rgba(245,158,11,0.35)' : 'none' }}>
@@ -575,7 +577,7 @@ function HowItWorks({ t }) {
 
         <div className="grid md:grid-cols-3 gap-5 items-start">
           {STEPS.map((step, i) => {
-            const rotate = i === 0 ? -4 : i === 2 ? 4 : 0;
+            const rotate = window.innerWidth < 768 ? 0 : (i === 0 ? -4 : i === 2 ? 4 : 0);
             // Each card floats at its own phase, amplitude, and speed so they never sync up
             const floats = [
               { y: [-5,  8, -5], duration: 4.3, delay: 0.4 },  // 01: starts mid-down, drifts up
@@ -732,16 +734,16 @@ function LivePreview({ t, dark }) {
         </FadeUp>
 
         <FadeUp delay={0.06}>
-          <div className="flex items-center justify-center gap-5 md:gap-8">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-12 md:gap-8">
 
             {/* Dark screenshot — leans left, floats upward */}
-            <Link to={PLAYGROUND} className="block shrink-0 group">
+            <Link to={PLAYGROUND} className="block shrink-0 group order-2 md:order-1">
               <motion.div
-                style={{ rotate: -6 }}
+                style={{ rotate: window.innerWidth < 768 ? 0 : -6 }}
                 animate={{ y: [6, -12, 6] }}
                 transition={{ repeat: Infinity, duration: 4.2, ease: 'easeInOut' }}
                 whileHover={{ scale: 1.04, transition: { duration: 0.22 } }}
-                className={`w-[260px] md:w-[380px] rounded-2xl overflow-hidden shadow-2xl border cursor-pointer ${
+                className={`w-[280px] md:w-[380px] rounded-2xl overflow-hidden shadow-2xl border cursor-pointer ${
                   dark ? 'border-white/10' : 'border-white/20'
                 }`}
               >
@@ -750,16 +752,18 @@ function LivePreview({ t, dark }) {
             </Link>
 
             {/* Fake sidebar tool — upright, gentle bob */}
-            <FakeSidebar t={t} dark={dark} />
+            <div className="order-1 md:order-2">
+              <FakeSidebar t={t} dark={dark} />
+            </div>
 
             {/* Light screenshot — leans right, floats downward */}
-            <Link to={PLAYGROUND} className="block shrink-0 group">
+            <Link to={PLAYGROUND} className="block shrink-0 group order-3">
               <motion.div
-                style={{ rotate: 6 }}
+                style={{ rotate: window.innerWidth < 768 ? 0 : 6 }}
                 animate={{ y: [-10, 8, -10] }}
                 transition={{ repeat: Infinity, duration: 3.8, ease: 'easeInOut', delay: 0.7 }}
                 whileHover={{ scale: 1.04, transition: { duration: 0.22 } }}
-                className={`w-[260px] md:w-[380px] rounded-2xl overflow-hidden shadow-2xl border cursor-pointer ${
+                className={`w-[280px] md:w-[380px] rounded-2xl overflow-hidden shadow-2xl border cursor-pointer ${
                   dark ? 'border-white/10' : 'border-black/[0.08]'
                 }`}
               >
@@ -891,7 +895,7 @@ function QuotesCarousel({ t, dark }) {
   }`;
 
   return (
-    <div className="relative">
+    <div className="relative touch-action-pan-y">
       {/* Left arrow — floats over the fade edge */}
       <button
         className={`${arrowCls} left-3`}
@@ -930,11 +934,19 @@ function QuotesCarousel({ t, dark }) {
         onMouseLeave={() => { setPaused(false); setHoveredKey(null); }}
       >
         {/* pt-52 = headroom for the screenshot popup above each card */}
-        <motion.div ref={trackRef} style={{ x: baseX }} className="flex gap-4 pt-52 pb-3 cursor-default">
+        <motion.div
+          ref={trackRef}
+          style={{ x: baseX }}
+          drag="x"
+          dragConstraints={{ left: -loopW.current, right: 0 }}
+          onDragStart={() => setPaused(true)}
+          onDragEnd={() => setPaused(false)}
+          className="flex gap-4 pt-52 pb-3 cursor-grab active:cursor-grabbing"
+        >
           {items.map((q, i) => (
             <motion.div
               key={i}
-              className="w-[340px] shrink-0 relative"
+              className="w-[280px] md:w-[340px] shrink-0 relative"
               whileHover={{ y: -4, transition: { duration: 0.18 } }}
               onHoverStart={() => setHoveredKey(q.handle)}
               onHoverEnd={() => setHoveredKey(null)}
@@ -1079,7 +1091,7 @@ export default function Landing() {
 
   return (
     <div
-      className={`min-h-screen font-sans transition-colors duration-300 ${t.root}`}
+      className={`min-h-screen font-sans transition-colors duration-300 overflow-x-hidden ${t.root}`}
       style={dark ? {
         background: [
           'radial-gradient(ellipse 110% 50% at 50% -5%, rgba(112,48,6,0.48) 0%, transparent 62%)',

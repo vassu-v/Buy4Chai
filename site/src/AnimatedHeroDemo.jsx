@@ -7,6 +7,7 @@ export default function AnimatedHeroDemo({ onComplete }) {
   // Track layout states in React for clean CSS-based transitions
   const [phase, setPhase] = useState('pouring'); // 'pouring' | 'revealing' | 'done'
   const [windowSize, setWindowSize] = useState({ width: 1200, height: 800 });
+  const isMobile = windowSize.width < 768;
 
   const onCompleteRef = useRef(onComplete);
   useEffect(() => {
@@ -99,26 +100,29 @@ export default function AnimatedHeroDemo({ onComplete }) {
           }
         }
       } else if (state.phase === 'revealing') {
-        // Slide Glass left (target glassX = -180)
-        state.glassX += (-180 - state.glassX) * 4 * dt;
+        // Slide Glass left (target glassX = -180 on desktop, 0 on mobile)
+        const targetX = isMobile ? 0 : -180;
+        state.glassX += (targetX - state.glassX) * 4 * dt;
 
-        if (Math.abs(state.glassX - (-180)) < 1) {
-          state.glassX = -180;
+        if (Math.abs(state.glassX - targetX) < 1) {
+          state.glassX = targetX;
           state.phase = 'done';
           setPhase('done');
           if (onCompleteRef.current) onCompleteRef.current();
         }
       } else if (state.phase === 'done') {
-        state.glassX = -180;
+        state.glassX = isMobile ? 0 : -180;
       }
 
       // Coordinates based on center
       const cx = width / 2;
-      const cy = height * 0.5;
+      const cy = isMobile ? height * 0.65 : height * 0.5;
       const gx = cx + state.glassX;
       const gy = cy;
-      const gw = state.glassWidth;
-      const gh = state.glassHeight;
+
+      const scale = isMobile ? Math.min(1, width / 500) : 1;
+      const gw = state.glassWidth * scale;
+      const gh = state.glassHeight * scale;
 
       const glassTopY = gy - gh / 2;
       const glassBottomY = gy + gh / 2;
@@ -427,7 +431,7 @@ export default function AnimatedHeroDemo({ onComplete }) {
           position: 'absolute',
           top: 0,
           bottom: 0,
-          left: '50%',
+          left: isMobile ? 0 : '50%',
           right: 0,
           overflow: 'hidden',
           pointerEvents: 'none',
@@ -438,18 +442,21 @@ export default function AnimatedHeroDemo({ onComplete }) {
           style={{
             position: 'absolute',
             top: '50%',
-            left: 0,
-            transform: `translateY(-50%) translateX(${isRevealed ? 40 : -420}px)`,
+            left: isMobile ? '50%' : 0,
+            transform: isMobile
+              ? `translate(-50%, ${isRevealed ? -180 : -120}%)`
+              : `translateY(-50%) translateX(${isRevealed ? 40 : -420}px)`,
             opacity: isRevealed ? 1 : 0,
             transition: 'transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1)',
-            width: '400px',
+            width: isMobile ? '90%' : '400px',
+            textAlign: isMobile ? 'center' : 'left'
           }}
-          className="flex flex-col items-start"
+          className={isMobile ? "flex flex-col items-center" : "flex flex-col items-start"}
         >
-          <h1 className="text-white text-7xl md:text-8xl font-black tracking-tighter leading-none">
+          <h1 className="text-white text-5xl md:text-8xl font-black tracking-tighter leading-none">
             Buy4Chai
           </h1>
-          <p className="text-zinc-500 text-lg md:text-xl font-medium mt-3 tracking-wide">
+          <p className="text-zinc-500 text-base md:text-xl font-medium mt-3 tracking-wide">
             The headless tip jar.
           </p>
         </div>
