@@ -269,6 +269,24 @@ function GridBackground({ dark }) {
 
 /* ─── Shared Primitives ──────────────────────────────────────── */
 
+function useWindowSize() {
+  const [size, setSize] = useState({
+    width: typeof window !== 'undefined' ? window.innerWidth : 1200,
+    height: typeof window !== 'undefined' ? window.innerHeight : 800
+  });
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const handleResize = () => {
+      setSize({ width: window.innerWidth, height: window.innerHeight });
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  return size;
+}
+
 function FadeUp({ children, delay = 0, className = '' }) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-60px' });
@@ -564,6 +582,7 @@ const STEPS = [
 ];
 
 function HowItWorks({ t }) {
+  const { width } = useWindowSize();
   return (
     <section id="how-it-works" className={`py-28 px-5 border-t ${t.divider}`}>
       <div className="max-w-6xl mx-auto">
@@ -577,7 +596,7 @@ function HowItWorks({ t }) {
 
         <div className="grid md:grid-cols-3 gap-5 items-start">
           {STEPS.map((step, i) => {
-            const rotate = window.innerWidth < 768 ? 0 : (i === 0 ? -4 : i === 2 ? 4 : 0);
+            const rotate = width < 768 ? 0 : (i === 0 ? -4 : i === 2 ? 4 : 0);
             // Each card floats at its own phase, amplitude, and speed so they never sync up
             const floats = [
               { y: [-5,  8, -5], duration: 4.3, delay: 0.4 },  // 01: starts mid-down, drifts up
@@ -720,6 +739,7 @@ function FakeSidebar({ t, dark }) {
 }
 
 function LivePreview({ t, dark }) {
+  const { width } = useWindowSize();
   return (
     <section id="preview" className={`py-28 px-5 border-t ${t.divider} ${!dark && t.sectionAlt ? t.sectionAlt : ''}`}>
       <div className="max-w-6xl mx-auto">
@@ -739,7 +759,7 @@ function LivePreview({ t, dark }) {
             {/* Dark screenshot — leans left, floats upward */}
             <Link to={PLAYGROUND} className="block shrink-0 group order-2 md:order-1">
               <motion.div
-                style={{ rotate: window.innerWidth < 768 ? 0 : -6 }}
+                style={{ rotate: width < 768 ? 0 : -6 }}
                 animate={{ y: [6, -12, 6] }}
                 transition={{ repeat: Infinity, duration: 4.2, ease: 'easeInOut' }}
                 whileHover={{ scale: 1.04, transition: { duration: 0.22 } }}
@@ -759,7 +779,7 @@ function LivePreview({ t, dark }) {
             {/* Light screenshot — leans right, floats downward */}
             <Link to={PLAYGROUND} className="block shrink-0 group order-3">
               <motion.div
-                style={{ rotate: window.innerWidth < 768 ? 0 : 6 }}
+                style={{ rotate: width < 768 ? 0 : 6 }}
                 animate={{ y: [-10, 8, -10] }}
                 transition={{ repeat: Infinity, duration: 3.8, ease: 'easeInOut', delay: 0.7 }}
                 whileHover={{ scale: 1.04, transition: { duration: 0.22 } }}
@@ -895,7 +915,7 @@ function QuotesCarousel({ t, dark }) {
   }`;
 
   return (
-    <div className="relative touch-action-pan-y">
+    <div className="relative touch-pan-y">
       {/* Left arrow — floats over the fade edge */}
       <button
         className={`${arrowCls} left-3`}
