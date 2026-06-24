@@ -1,0 +1,24 @@
+# Buy4Chai
+
+> A self-hostable, gateway-agnostic supporter page for developers. Zero fees. Bring your own payment gateway.
+
+Buy4Chai is an open-source tip jar alternative for developers in countries where Stripe is unavailable or PayPal fees are prohibitive. Fork it, configure one file, deploy to Vercel in under 10 minutes. MIT licensed.
+
+## Pages
+
+- [Landing Page](https://land-chai.vercel.app/): Overview of Buy4Chai — features, how it works, live demo, community feedback
+- [Playground](https://land-chai.vercel.app/playground): Interactive demo — customize name, bio, accent color and preview your supporter page live
+
+## Key Facts
+
+- 0% platform fees — you keep everything your supporters send
+- Supports Razorpay, Dodo Payments, and UPI Direct out of the box
+- No backend required — 100% static, deploy anywhere
+- MIT License — fork and own it forever
+- Built for Indian developers and devs in Stripe-restricted countries
+- 12+ GitHub stars, 7.6K Reddit views, active community
+
+## Source
+
+- GitHub: https://github.com/vassu-v/Buy4Chai
+- Built by: @vassu-v
