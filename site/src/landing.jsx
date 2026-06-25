@@ -376,7 +376,7 @@ function Nav({ t, dark, setDark }) {
 
 function Hero({ t, dark }) {
   return (
-    <section className={`relative min-h-screen flex flex-col items-center justify-center text-center px-5 overflow-hidden ${dark ? 'noise-bg' : ''}`}>
+    <section className={`relative min-h-screen flex flex-col items-center justify-center text-center px-5 pt-16 overflow-hidden ${dark ? 'noise-bg' : ''}`}>
       {/* Ambient glow */}
       <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full blur-[130px] pointer-events-none ${t.heroGlow1}`} />
       <div className={`absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] rounded-full blur-[80px] pointer-events-none ${t.heroGlow2}`} />
@@ -455,6 +455,24 @@ function Hero({ t, dark }) {
           <span>100% static</span>
           <span className={`w-px h-3 ${dark ? 'bg-white/10' : 'bg-[#E6D5C3]'}`} />
           <span>You Own This</span>
+        </motion.div>
+
+        {/* Fazier badge */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.7 }}
+          className="mt-6 flex items-center justify-center gap-3"
+        >
+          <span className={`text-[10px] font-medium tracking-widest uppercase ${t.dimmer}`}>Featured on</span>
+          <a href="https://fazier.com" target="_blank" rel="noopener noreferrer">
+            <img
+              src="https://fazier.com/api/v1//public/badges/launch_badges.svg?badge_type=launched&theme=neutral"
+              width={120}
+              alt="Fazier badge"
+              className={`transition-opacity ${dark ? 'opacity-70 hover:opacity-100' : 'opacity-80 hover:opacity-100'}`}
+            />
+          </a>
         </motion.div>
       </div>
 
@@ -1094,9 +1112,19 @@ function Footer({ t, dark }) {
             <Github size={14} /> GitHub
           </a>
         </div>
-        <a href="https://buy4chai-vassu-v.vercel.app/" target="_blank" rel="noopener noreferrer">
-          <img src="/badge.svg" alt="Buy me a chai" className={`h-8 transition-opacity ${dark ? 'opacity-60 hover:opacity-100' : 'opacity-70 hover:opacity-100'}`} />
-        </a>
+        <div className="flex items-center gap-3">
+          <a href="https://fazier.com" target="_blank" rel="noopener noreferrer">
+            <img
+              src="https://fazier.com/api/v1//public/badges/launch_badges.svg?badge_type=launched&theme=neutral"
+              width={120}
+              alt="Fazier badge"
+              className={`transition-opacity ${dark ? 'opacity-60 hover:opacity-100' : 'opacity-70 hover:opacity-100'}`}
+            />
+          </a>
+          <a href="https://buy4chai-vassu-v.vercel.app/" target="_blank" rel="noopener noreferrer">
+            <img src="/badge.svg" alt="Buy me a chai" className={`h-8 transition-opacity ${dark ? 'opacity-60 hover:opacity-100' : 'opacity-70 hover:opacity-100'}`} />
+          </a>
+        </div>
       </div>
     </footer>
   );
