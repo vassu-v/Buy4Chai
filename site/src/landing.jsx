@@ -1,116 +1,116 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { motion, AnimatePresence, useInView, useMotionValue, useAnimationFrame, animate } from 'framer-motion';
+import { motion, AnimatePresence, useInView, useMotionValue, useAnimationFrame, animate, useScroll, useTransform } from 'framer-motion';
 
 import {
   Github, ArrowRight, ArrowUpRight, X,
-  Zap, Code2, Star, Sun, Moon, ChevronLeft, ChevronRight
+  Zap, Code2, Star, Sun, Moon, ChevronLeft, ChevronRight, Play
 } from 'lucide-react';
 import AnimatedHeroDemo from './AnimatedHeroDemo.jsx';
 
 /* ─── Constants ──────────────────────────────────────────────── */
 
-const GITHUB_URL   = 'https://github.com/vassu-v/buy4chai';
-const FORK_URL     = 'https://github.com/vassu-v/buy4chai/fork';
-const PLAYGROUND   = '/playground';
+const GITHUB_URL = 'https://github.com/vassu-v/buy4chai';
+const FORK_URL = 'https://github.com/vassu-v/buy4chai/fork';
+const PLAYGROUND = '/playground';
 
 /* ─── Theme Tokens ───────────────────────────────────────────── */
 
 const DARK = {
-  root:        'bg-[#0A0A0A] text-white',
-  nav:         'border-white/[0.06] bg-[#0A0A0A]/90',
-  navLink:     'text-zinc-400 hover:text-white hover:bg-white/5',
-  card:        'bg-[#0F0F0F] border border-white/[0.07]',
-  cardInner:   'bg-[#111111]',
-  browserBar:  'bg-[#1A1A1A] border-b border-white/[0.06]',
-  browserUrl:  'bg-[#0D0D0D] border border-white/[0.05] text-zinc-500',
+  root: 'bg-[#0A0A0A] text-white',
+  nav: 'border-white/[0.06] bg-[#0A0A0A]/90',
+  navLink: 'text-zinc-400 hover:text-white hover:bg-white/5',
+  card: 'bg-[#0F0F0F] border border-white/[0.07]',
+  cardInner: 'bg-[#111111]',
+  browserBar: 'bg-[#1A1A1A] border-b border-white/[0.06]',
+  browserUrl: 'bg-[#0D0D0D] border border-white/[0.05] text-zinc-500',
   browserPage: 'bg-[#0C0C0C]',
-  codeWrap:    'bg-[#0D0D0D] border border-white/[0.06]',
-  codeBar:     'bg-[#111111] border-b border-white/[0.06]',
-  codeFile:    'text-zinc-600',
-  input:       'bg-[#0F0F0F] border-white/10 text-white placeholder:text-zinc-600 focus:border-amber-500/40 focus:ring-amber-500/10',
-  heading:     'text-white',
-  body:        'text-zinc-400',
-  faint:       'text-zinc-500',
-  dimmer:      'text-zinc-600',
-  label:       'text-zinc-400',
-  accent:      'text-amber-500',
-  accentHex:   '#F59E0B',
-  divider:     'border-white/[0.04]',
-  statCard:    'bg-[#0F0F0F] border border-white/[0.06]',
-  quote:       'bg-[#0D0D0D] border border-white/[0.06]',
-  stepCard:    'bg-[#0F0F0F] border border-white/[0.06] hover:border-amber-500/20',
-  stepNum:     'text-white/[0.03]',
-  stepIcon:    'bg-amber-500/10 border border-amber-500/20 text-amber-500',
-  ctaBanner:   'bg-gradient-to-br from-amber-500/10 via-amber-500/5 to-transparent border border-amber-500/20',
-  ctaGlow:     'bg-amber-500/10',
-  pillText:    'text-zinc-500',
-  pillDot:     'text-amber-500',
-  heroGlow1:   'bg-amber-500/[0.04]',
-  heroGlow2:   'bg-amber-500/[0.06]',
-  iconBox:     'bg-white/[0.04] border border-white/10',
-  scrollLine:  'via-white/20',
-  tagText:     'text-zinc-500',
-  amberBtn:    'bg-amber-500 text-black hover:bg-amber-400 shadow-amber-500/20',
-  outlineBtn:  'border-white/15 text-white hover:border-white/30 hover:bg-white/5',
-  toggleBg:    'bg-white/[0.08] border-white/10 text-zinc-300 hover:bg-white/[0.13]',
+  codeWrap: 'bg-[#0D0D0D] border border-white/[0.06]',
+  codeBar: 'bg-[#111111] border-b border-white/[0.06]',
+  codeFile: 'text-zinc-600',
+  input: 'bg-[#0F0F0F] border-white/10 text-white placeholder:text-zinc-600 focus:border-amber-500/40 focus:ring-amber-500/10',
+  heading: 'text-white',
+  body: 'text-zinc-400',
+  faint: 'text-zinc-500',
+  dimmer: 'text-zinc-600',
+  label: 'text-zinc-400',
+  accent: 'text-amber-500',
+  accentHex: '#F59E0B',
+  divider: 'border-white/[0.04]',
+  statCard: 'bg-[#0F0F0F] border border-white/[0.06]',
+  quote: 'bg-[#0D0D0D] border border-white/[0.06]',
+  stepCard: 'bg-[#0F0F0F] border border-white/[0.06] hover:border-amber-500/20',
+  stepNum: 'text-white/[0.03]',
+  stepIcon: 'bg-amber-500/10 border border-amber-500/20 text-amber-500',
+  ctaBanner: 'bg-gradient-to-br from-amber-500/10 via-amber-500/5 to-transparent border border-amber-500/20',
+  ctaGlow: 'bg-amber-500/10',
+  pillText: 'text-zinc-500',
+  pillDot: 'text-amber-500',
+  heroGlow1: 'bg-amber-500/[0.04]',
+  heroGlow2: 'bg-amber-500/[0.06]',
+  iconBox: 'bg-white/[0.04] border border-white/10',
+  scrollLine: 'via-white/20',
+  tagText: 'text-zinc-500',
+  amberBtn: 'bg-amber-500 text-black hover:bg-amber-400 shadow-amber-500/20',
+  outlineBtn: 'border-white/15 text-white hover:border-white/30 hover:bg-white/5',
+  toggleBg: 'bg-white/[0.08] border-white/10 text-zinc-300 hover:bg-white/[0.13]',
   previewName: 'text-white',
-  previewBio:  'text-zinc-500',
+  previewBio: 'text-zinc-500',
   previewSafe: 'text-zinc-600',
-  oldCard1:    'bg-[#0D1117] border border-[#30363d]/80',
-  oldCard2:    'bg-[#003087] border border-[#1a4fa0]/60',
-  oldCard3:    'bg-[#0A0A0A] border border-red-900/40',
-  footerText:  'text-zinc-600',
-  footerLink:  'text-zinc-400 hover:text-white',
+  oldCard1: 'bg-[#0D1117] border border-[#30363d]/80',
+  oldCard2: 'bg-[#003087] border border-[#1a4fa0]/60',
+  oldCard3: 'bg-[#0A0A0A] border border-red-900/40',
+  footerText: 'text-zinc-600',
+  footerLink: 'text-zinc-400 hover:text-white',
 };
 
 const LIGHT = {
-  root:        'bg-[#FDF8F3] text-[#3D2B1F]',
-  nav:         'border-[#E6D5C3]/70 bg-[#FDF8F3]/95',
-  navLink:     'text-[#7C6A5B] hover:text-[#3D2B1F] hover:bg-[#F0E4D4]',
-  card:        'bg-[#FFF9F5] border border-[#E6D5C3]',
-  cardInner:   'bg-[#F5EDE2]',
-  sectionAlt:  'bg-[#F5EDE2]',
-  browserBar:  'bg-[#F0E4D4] border-b border-[#E6D5C3]',
-  browserUrl:  'bg-[#FDF8F3] border border-[#E6D5C3] text-[#A89080]',
+  root: 'bg-[#FDF8F3] text-[#3D2B1F]',
+  nav: 'border-[#E6D5C3]/70 bg-[#FDF8F3]/95',
+  navLink: 'text-[#7C6A5B] hover:text-[#3D2B1F] hover:bg-[#F0E4D4]',
+  card: 'bg-[#FFF9F5] border border-[#E6D5C3]',
+  cardInner: 'bg-[#F5EDE2]',
+  sectionAlt: 'bg-[#F5EDE2]',
+  browserBar: 'bg-[#F0E4D4] border-b border-[#E6D5C3]',
+  browserUrl: 'bg-[#FDF8F3] border border-[#E6D5C3] text-[#A89080]',
   browserPage: 'bg-[#FDF8F3]',
-  codeWrap:    'bg-[#2A1A0E] border border-[#E6D5C3]/20',
-  codeBar:     'bg-[#221508] border-b border-white/[0.07]',
-  codeFile:    'text-zinc-500',
-  input:       'bg-[#F5EDE2] border-[#E6D5C3] text-[#3D2B1F] placeholder:text-[#A89080] focus:border-[#8B5E3C]/60 focus:ring-[#8B5E3C]/10',
-  heading:     'text-[#3D2B1F]',
-  body:        'text-[#7C6A5B]',
-  faint:       'text-[#7C6A5B]',
-  dimmer:      'text-[#A89080]',
-  label:       'text-[#7C6A5B]',
-  accent:      'text-[#8B5E3C]',
-  accentHex:   '#8B5E3C',
-  divider:     'border-[#E6D5C3]/70',
-  statCard:    'bg-[#FFF9F5] border border-[#E6D5C3]',
-  quote:       'bg-[#FFF9F5] border border-[#E6D5C3]',
-  stepCard:    'bg-[#FFF9F5] border border-[#E6D5C3] hover:border-[#D4A373]/70',
-  stepNum:     'text-[#3D2B1F]/[0.04]',
-  stepIcon:    'bg-[#F5EDE2] border border-[#E6D5C3] text-[#8B5E3C]',
-  ctaBanner:   'bg-gradient-to-br from-[#F7E9D9] via-[#FFF4EB] to-[#FDF8F3] border border-[#E6D5C3]',
-  ctaGlow:     'bg-[#D4A373]/25',
-  pillText:    'text-[#7C6A5B]',
-  pillDot:     'text-[#8B5E3C]',
-  heroGlow1:   'bg-[#D4A373]/[0.14]',
-  heroGlow2:   'bg-amber-400/[0.1]',
-  iconBox:     'bg-[#F7E9D9] border border-[#E6D5C3]',
-  scrollLine:  'via-[#D4A373]/50',
-  tagText:     'text-[#8B5E3C]',
-  amberBtn:    'bg-amber-500 text-black hover:bg-amber-600 shadow-amber-500/20',
-  outlineBtn:  'border-[#E6D5C3] text-[#5F4029] hover:border-[#D4A373] hover:bg-[#F5EDE2]',
-  toggleBg:    'bg-[#F5EDE2] border-[#E6D5C3] text-[#7C6A5B] hover:bg-[#EDD9C4]',
+  codeWrap: 'bg-[#2A1A0E] border border-[#E6D5C3]/20',
+  codeBar: 'bg-[#221508] border-b border-white/[0.07]',
+  codeFile: 'text-zinc-500',
+  input: 'bg-[#F5EDE2] border-[#E6D5C3] text-[#3D2B1F] placeholder:text-[#A89080] focus:border-[#8B5E3C]/60 focus:ring-[#8B5E3C]/10',
+  heading: 'text-[#3D2B1F]',
+  body: 'text-[#7C6A5B]',
+  faint: 'text-[#7C6A5B]',
+  dimmer: 'text-[#A89080]',
+  label: 'text-[#7C6A5B]',
+  accent: 'text-[#8B5E3C]',
+  accentHex: '#8B5E3C',
+  divider: 'border-[#E6D5C3]/70',
+  statCard: 'bg-[#FFF9F5] border border-[#E6D5C3]',
+  quote: 'bg-[#FFF9F5] border border-[#E6D5C3]',
+  stepCard: 'bg-[#FFF9F5] border border-[#E6D5C3] hover:border-[#D4A373]/70',
+  stepNum: 'text-[#3D2B1F]/[0.04]',
+  stepIcon: 'bg-[#F5EDE2] border border-[#E6D5C3] text-[#8B5E3C]',
+  ctaBanner: 'bg-gradient-to-br from-[#F7E9D9] via-[#FFF4EB] to-[#FDF8F3] border border-[#E6D5C3]',
+  ctaGlow: 'bg-[#D4A373]/25',
+  pillText: 'text-[#7C6A5B]',
+  pillDot: 'text-[#8B5E3C]',
+  heroGlow1: 'bg-[#D4A373]/[0.14]',
+  heroGlow2: 'bg-amber-400/[0.1]',
+  iconBox: 'bg-[#F7E9D9] border border-[#E6D5C3]',
+  scrollLine: 'via-[#D4A373]/50',
+  tagText: 'text-[#8B5E3C]',
+  amberBtn: 'bg-amber-500 text-black hover:bg-amber-600 shadow-amber-500/20',
+  outlineBtn: 'border-[#E6D5C3] text-[#5F4029] hover:border-[#D4A373] hover:bg-[#F5EDE2]',
+  toggleBg: 'bg-[#F5EDE2] border-[#E6D5C3] text-[#7C6A5B] hover:bg-[#EDD9C4]',
   previewName: 'text-[#3D2B1F]',
-  previewBio:  'text-[#7C6A5B]',
+  previewBio: 'text-[#7C6A5B]',
   previewSafe: 'text-[#A89080]',
-  oldCard1:    'bg-[#0D1117] border border-[#30363d]/80',
-  oldCard2:    'bg-[#003087] border border-[#1a4fa0]/60',
-  oldCard3:    'bg-[#111111] border border-red-900/40',
-  footerText:  'text-[#A89080]',
-  footerLink:  'text-[#7C6A5B] hover:text-[#3D2B1F]',
+  oldCard1: 'bg-[#0D1117] border border-[#30363d]/80',
+  oldCard2: 'bg-[#003087] border border-[#1a4fa0]/60',
+  oldCard3: 'bg-[#111111] border border-red-900/40',
+  footerText: 'text-[#A89080]',
+  footerLink: 'text-[#7C6A5B] hover:text-[#3D2B1F]',
 };
 
 /* ─── Inline Chai Logo ───────────────────────────────────────── */
@@ -148,27 +148,27 @@ function ChaiLogo({ size = 28, className = '' }) {
 
 function GridBackground({ dark }) {
   const canvasRef = useRef(null);
-  const mouse     = useRef({ x: -9999, y: -9999 });
-  const raf       = useRef(null);
+  const mouse = useRef({ x: -9999, y: -9999 });
+  const raf = useRef(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    const ctx    = canvas.getContext('2d');
+    const ctx = canvas.getContext('2d');
 
     const resize = () => {
-      canvas.width  = window.innerWidth;
+      canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
     };
     resize();
 
-    const onMove  = (e) => { mouse.current = { x: e.clientX, y: e.clientY }; };
-    const onLeave = ()  => { mouse.current = { x: -9999,     y: -9999     }; };
+    const onMove = (e) => { mouse.current = { x: e.clientX, y: e.clientY }; };
+    const onLeave = () => { mouse.current = { x: -9999, y: -9999 }; };
 
-    window.addEventListener('resize',    resize);
+    window.addEventListener('resize', resize);
     window.addEventListener('mousemove', onMove);
     document.addEventListener('mouseleave', onLeave);
 
-    const GRID   = 60;
+    const GRID = 60;
     const RADIUS = 230;
 
     const draw = () => {
@@ -189,21 +189,21 @@ function GridBackground({ dark }) {
         ctx.moveTo(xi, 0);
         ctx.lineTo(xi, height);
         ctx.strokeStyle = BASE;
-        ctx.lineWidth   = 0.7;
+        ctx.lineWidth = 0.7;
         ctx.stroke();
 
         if (prox > 0.02) {
           const span = RADIUS * 1.3;
           const grad = ctx.createLinearGradient(0, my - span, 0, my + span);
-          const a    = prox * (dark ? 0.65 : 0.45);
-          grad.addColorStop(0,   `rgba(${R},${G},${B},0)`);
+          const a = prox * (dark ? 0.65 : 0.45);
+          grad.addColorStop(0, `rgba(${R},${G},${B},0)`);
           grad.addColorStop(0.5, `rgba(${R},${G},${B},${a})`);
-          grad.addColorStop(1,   `rgba(${R},${G},${B},0)`);
+          grad.addColorStop(1, `rgba(${R},${G},${B},0)`);
           ctx.beginPath();
           ctx.moveTo(xi, my - span);
           ctx.lineTo(xi, my + span);
           ctx.strokeStyle = grad;
-          ctx.lineWidth   = 0.5 + prox * 1.2;
+          ctx.lineWidth = 0.5 + prox * 1.2;
           ctx.stroke();
         }
       }
@@ -214,24 +214,24 @@ function GridBackground({ dark }) {
         const prox = Math.max(0, 1 - perp / RADIUS);
 
         ctx.beginPath();
-        ctx.moveTo(0,     yi);
+        ctx.moveTo(0, yi);
         ctx.lineTo(width, yi);
         ctx.strokeStyle = BASE;
-        ctx.lineWidth   = 0.7;
+        ctx.lineWidth = 0.7;
         ctx.stroke();
 
         if (prox > 0.02) {
           const span = RADIUS * 1.3;
           const grad = ctx.createLinearGradient(mx - span, 0, mx + span, 0);
-          const a    = prox * (dark ? 0.65 : 0.45);
-          grad.addColorStop(0,   `rgba(${R},${G},${B},0)`);
+          const a = prox * (dark ? 0.65 : 0.45);
+          grad.addColorStop(0, `rgba(${R},${G},${B},0)`);
           grad.addColorStop(0.5, `rgba(${R},${G},${B},${a})`);
-          grad.addColorStop(1,   `rgba(${R},${G},${B},0)`);
+          grad.addColorStop(1, `rgba(${R},${G},${B},0)`);
           ctx.beginPath();
           ctx.moveTo(mx - span, yi);
           ctx.lineTo(mx + span, yi);
           ctx.strokeStyle = grad;
-          ctx.lineWidth   = 0.5 + prox * 1.2;
+          ctx.lineWidth = 0.5 + prox * 1.2;
           ctx.stroke();
         }
       }
@@ -257,7 +257,7 @@ function GridBackground({ dark }) {
     raf.current = requestAnimationFrame(draw);
 
     return () => {
-      window.removeEventListener('resize',    resize);
+      window.removeEventListener('resize', resize);
       window.removeEventListener('mousemove', onMove);
       document.removeEventListener('mouseleave', onLeave);
       cancelAnimationFrame(raf.current);
@@ -302,7 +302,7 @@ function FadeUp({ children, delay = 0, className = '' }) {
 
 function Btn({ t, href, onClick, children, outline = false, className = '' }) {
   const base = 'inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm transition-all duration-200 cursor-pointer active:scale-[0.97] shadow-lg';
-  const cls  = `${base} ${outline ? `border ${t.outlineBtn} shadow-none` : `${t.amberBtn}`} ${className}`;
+  const cls = `${base} ${outline ? `border ${t.outlineBtn} shadow-none` : `${t.amberBtn}`} ${className}`;
   if (href?.startsWith('/')) return <Link to={href} className={cls}>{children}</Link>;
   if (href) return <a href={href} target="_blank" rel="noopener noreferrer" className={cls}>{children}</a>;
   return <button onClick={onClick} className={cls}>{children}</button>;
@@ -338,7 +338,7 @@ function Nav({ t, dark, setDark }) {
         </a>
 
         <div className="hidden md:flex items-center gap-1">
-          {[['#features','Features'],['#how-it-works','How it works'],[PLAYGROUND,'Try it'],[GITHUB_URL,'GitHub']].map(([href, label]) => {
+          {[['#features', 'Features'], ['#how-it-works', 'How it works'], [PLAYGROUND, 'Try it'], [GITHUB_URL, 'GitHub']].map(([href, label]) => {
             const cls = `px-3.5 py-2 text-sm rounded-lg font-medium transition-colors ${t.navLink}`;
             if (href.startsWith('/'))
               return <Link key={label} to={href} className={cls}>{label}</Link>;
@@ -389,11 +389,10 @@ function Hero({ t, dark }) {
           transition={{ duration: 0.45 }}
           className="mb-8"
         >
-          <span className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold tracking-wide border ${
-            dark
-              ? 'border-amber-500/25 text-amber-400/80 bg-amber-500/[0.07]'
-              : 'border-[#E6D5C3] text-[#8B5E3C] bg-[#F7E9D9]'
-          }`}>
+          <span className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold tracking-wide border ${dark
+            ? 'border-amber-500/25 text-amber-400/80 bg-amber-500/[0.07]'
+            : 'border-[#E6D5C3] text-[#8B5E3C] bg-[#F7E9D9]'
+            }`}>
             <span className={`w-1.5 h-1.5 rounded-full ${dark ? 'bg-amber-500' : 'bg-[#8B5E3C]'}`} />
             Open source · Zero fees · Self-hosted
           </span>
@@ -489,6 +488,110 @@ function Hero({ t, dark }) {
           className={`w-[1px] h-9 bg-gradient-to-b from-transparent ${t.scrollLine} to-transparent mx-auto`}
         />
       </motion.div>
+    </section>
+  );
+}
+
+/* ─── Video Showcase ─────────────────────────────────────────── */
+
+function VideoShowcase({ t, dark }) {
+  const containerRef = useRef(null);
+  const videoRef = useRef(null);
+
+  // Triggers between 95% and 50% of screen height
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start 95%", "start 50%"]
+  });
+
+  const rotateX = useTransform(scrollYProgress, [0, 1], ["-40deg", "0deg"]);
+  const scale = useTransform(scrollYProgress, [0, 1], [0.7, 1]);
+  const opacity = useTransform(scrollYProgress, [0, 1], [0.3, 1]);
+
+  // 3D Shadow effect
+  const shadowColor = dark ? "rgba(245, 158, 11, 0.25)" : "rgba(212, 163, 115, 0.25)";
+  const boxShadow = useTransform(
+    scrollYProgress,
+    [0, 1],
+    [`0px 50px 100px -20px ${shadowColor}`, `0px 20px 40px -10px ${shadowColor}`]
+  );
+
+  const isInView = useInView(containerRef, { margin: "-20% 0px -20% 0px" });
+
+  useEffect(() => {
+    // Autoplay when settled
+    const unsubscribe = scrollYProgress.on
+      ? scrollYProgress.on('change', (latest) => {
+        if (latest > 0.95 && videoRef.current) {
+          if (videoRef.current.paused) {
+            videoRef.current.muted = false;
+            videoRef.current.play().catch(e => {
+              console.log("Autoplay prevented:", e);
+              if (videoRef.current) {
+                videoRef.current.muted = true;
+                videoRef.current.play().catch(err => console.log("Muted autoplay also prevented:", err));
+              }
+            });
+          }
+        }
+      })
+      : scrollYProgress.onChange && scrollYProgress.onChange((latest) => {
+        if (latest > 0.95 && videoRef.current) {
+          if (videoRef.current.paused) {
+            videoRef.current.muted = false;
+            videoRef.current.play().catch(e => {
+              console.log("Autoplay prevented:", e);
+              if (videoRef.current) {
+                videoRef.current.muted = true;
+                videoRef.current.play().catch(err => console.log("Muted autoplay also prevented:", err));
+              }
+            });
+          }
+        }
+      });
+    return () => {
+      if (unsubscribe) unsubscribe();
+    };
+  }, [scrollYProgress]);
+
+  useEffect(() => {
+    // Auto-pause when scrolled out of view
+    if (!isInView && videoRef.current && !videoRef.current.paused) {
+      videoRef.current.pause();
+    }
+  }, [isInView]);
+
+  useEffect(() => {
+    // Auto-pause on tab change
+    const handleVisibilityChange = () => {
+      if (document.hidden && videoRef.current && !videoRef.current.paused) {
+        videoRef.current.pause();
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
+  }, []);
+
+  return (
+    <section ref={containerRef} className={`py-16 md:py-28 px-5 relative border-t ${t.divider}`}>
+      <div className="max-w-5xl mx-auto" style={{ perspective: "800px" }}>
+        <motion.div
+          style={{ rotateX, scale, opacity, boxShadow, transformStyle: "preserve-3d" }}
+          className={`relative rounded-xl md:rounded-3xl overflow-hidden border ${dark ? 'border-amber-500/20' : 'border-[#D4A373]/30'}`}
+        >
+          {/* Subtle glow behind the video */}
+          <div className={`absolute inset-0 bg-gradient-to-tr ${dark ? 'from-amber-500/10 to-transparent' : 'from-[#D4A373]/10 to-transparent'} pointer-events-none z-10`} />
+
+          <video
+            ref={videoRef}
+            src="/buy4chaisaas.mp4"
+            loop
+            controls
+            playsInline
+            className="w-full block bg-[#050505] relative z-20"
+          />
+        </motion.div>
+      </div>
     </section>
   );
 }
@@ -594,13 +697,14 @@ function BeforeAfter({ t, dark }) {
 /* ─── How It Works ───────────────────────────────────────────── */
 
 const STEPS = [
-  { num: '01', title: 'Fork',      desc: 'Clone the repo to your GitHub in one click. No accounts, no signups.', icon: <Github size={18} /> },
-  { num: '02', title: 'Configure', desc: 'Edit one config file with your name, bio, avatar, and gateway key.',    icon: <Code2  size={18} /> },
-  { num: '03', title: 'Deploy',    desc: 'Push to Vercel or Netlify. Auto-detects, builds, goes live in minutes.',icon: <Zap    size={18} /> },
+  { num: '01', title: 'Fork', desc: 'Clone the repo to your GitHub in one click. No accounts, no signups.', icon: <Github size={18} /> },
+  { num: '02', title: 'Configure', desc: 'Edit one config file with your name, bio, avatar, and gateway key.', icon: <Code2 size={18} /> },
+  { num: '03', title: 'Deploy', desc: 'Push to Vercel or Netlify. Auto-detects, builds, goes live in minutes.', icon: <Zap size={18} /> },
 ];
 
 function HowItWorks({ t }) {
   const { width } = useWindowSize();
+  const [isVideoOpen, setIsVideoOpen] = useState(false);
   return (
     <section id="how-it-works" className={`py-28 px-5 border-t ${t.divider}`}>
       <div className="max-w-6xl mx-auto">
@@ -617,9 +721,9 @@ function HowItWorks({ t }) {
             const rotate = width < 768 ? 0 : (i === 0 ? -4 : i === 2 ? 4 : 0);
             // Each card floats at its own phase, amplitude, and speed so they never sync up
             const floats = [
-              { y: [-5,  8, -5], duration: 4.3, delay: 0.4 },  // 01: starts mid-down, drifts up
-              { y: [ 0, -11, 0], duration: 3.4, delay: 0   },  // 02: starts neutral, goes up
-              { y: [ 6, -5,  6], duration: 3.9, delay: 1.2 },  // 03: starts mid-up, drifts down
+              { y: [-5, 8, -5], duration: 4.3, delay: 0.4 },  // 01: starts mid-down, drifts up
+              { y: [0, -11, 0], duration: 3.4, delay: 0 },  // 02: starts neutral, goes up
+              { y: [6, -5, 6], duration: 3.9, delay: 1.2 },  // 03: starts mid-up, drifts down
             ];
             const { y, duration, delay } = floats[i];
             return (
@@ -654,9 +758,13 @@ function HowItWorks({ t }) {
                 <div className="w-2 h-2 rounded-full bg-[#28c840]" />
               </div>
               <span className={`text-xs font-mono ml-2 ${t.codeFile}`}>chai.config.js</span>
+              <div className="flex-1" />
+              <button onClick={() => setIsVideoOpen(true)} className="flex items-center gap-1.5 text-xs font-bold text-amber-500 hover:text-amber-400 bg-amber-500/10 hover:bg-amber-500/20 px-3 py-1.5 rounded-lg transition-colors">
+                <Play size={12} fill="currentColor" /> Watch Tutorial
+              </button>
             </div>
             <pre className="p-5 text-[13px] font-mono leading-6 overflow-x-auto text-zinc-300">
-{`export default {
+              {`export default {
   `}<span className="text-zinc-600">// That's it. Just fill these in.</span>{`
   name:       `}<span className="text-amber-400">"Your Name"</span>{`,
   avatar:     `}<span className="text-amber-400">"https://github.com/you.png"</span>{`,
@@ -671,6 +779,37 @@ function HowItWorks({ t }) {
             </pre>
           </div>
         </FadeUp>
+
+        {/* Video Dialog */}
+        <AnimatePresence>
+          {isVideoOpen && (
+            <motion.div 
+              initial={{ opacity: 0 }} 
+              animate={{ opacity: 1 }} 
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/80 backdrop-blur-sm p-5"
+              onClick={() => setIsVideoOpen(false)}
+            >
+              <motion.div 
+                initial={{ scale: 0.95, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.95, opacity: 0 }}
+                onClick={(e) => e.stopPropagation()}
+                className="relative w-full max-w-4xl bg-black rounded-2xl overflow-hidden border border-white/10 shadow-2xl"
+              >
+                <button onClick={() => setIsVideoOpen(false)} className="absolute top-4 right-4 z-10 w-8 h-8 flex items-center justify-center bg-black/50 hover:bg-black/80 rounded-full text-white/70 hover:text-white transition-colors">
+                  <X size={16} />
+                </button>
+                <video 
+                  src="https://buy4-chai.vercel.app/complete.mp4" 
+                  autoPlay 
+                  controls 
+                  className="w-full h-auto block"
+                />
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </section>
   );
@@ -679,8 +818,8 @@ function HowItWorks({ t }) {
 /* ─── Live Preview ───────────────────────────────────────────── */
 
 function FakeSidebar({ t, dark }) {
-  const [name,  setName]  = useState('Shoryavardhaan');
-  const [bio,   setBio]   = useState('Building open source tools.');
+  const [name, setName] = useState('Shoryavardhaan');
+  const [bio, setBio] = useState('Building open source tools.');
   const [color, setColor] = useState('#F59E0B');
 
   return (
@@ -727,7 +866,7 @@ function FakeSidebar({ t, dark }) {
         <div>
           <label className={`text-[9px] font-black tracking-[0.15em] uppercase block mb-1.5 ${t.dimmer}`}>Color</label>
           <div className="flex gap-1.5 flex-wrap mb-2">
-            {['#F59E0B','#10B981','#6366F1','#EC4899','#EF4444','#3B82F6'].map(c => (
+            {['#F59E0B', '#10B981', '#6366F1', '#EC4899', '#EF4444', '#3B82F6'].map(c => (
               <button
                 key={c}
                 onClick={() => setColor(c)}
@@ -781,9 +920,8 @@ function LivePreview({ t, dark }) {
                 animate={{ y: [6, -12, 6] }}
                 transition={{ repeat: Infinity, duration: 4.2, ease: 'easeInOut' }}
                 whileHover={{ scale: 1.04, transition: { duration: 0.22 } }}
-                className={`w-[280px] md:w-[380px] rounded-2xl overflow-hidden shadow-2xl border cursor-pointer ${
-                  dark ? 'border-white/10' : 'border-white/20'
-                }`}
+                className={`w-[280px] md:w-[380px] rounded-2xl overflow-hidden shadow-2xl border cursor-pointer ${dark ? 'border-white/10' : 'border-white/20'
+                  }`}
               >
                 <img src="/Screenshot_2026-06-21_17-37-00.png" alt="Buy4Chai dark theme" className="w-full block" />
               </motion.div>
@@ -801,9 +939,8 @@ function LivePreview({ t, dark }) {
                 animate={{ y: [-10, 8, -10] }}
                 transition={{ repeat: Infinity, duration: 3.8, ease: 'easeInOut', delay: 0.7 }}
                 whileHover={{ scale: 1.04, transition: { duration: 0.22 } }}
-                className={`w-[280px] md:w-[380px] rounded-2xl overflow-hidden shadow-2xl border cursor-pointer ${
-                  dark ? 'border-white/10' : 'border-black/[0.08]'
-                }`}
+                className={`w-[280px] md:w-[380px] rounded-2xl overflow-hidden shadow-2xl border cursor-pointer ${dark ? 'border-white/10' : 'border-black/[0.08]'
+                  }`}
               >
                 <img src="/Screenshot_2026-06-21_17-37-07.png" alt="Buy4Chai light theme" className="w-full block" />
               </motion.div>
@@ -856,20 +993,19 @@ const QUOTES = [
 ];
 
 const PLT = {
-  X:        { text: 'text-zinc-200',   bg: 'bg-zinc-700/60',      dot: '#E4E4E7' },
-  LinkedIn: { text: 'text-blue-200',   bg: 'bg-blue-900/50',      dot: '#93C5FD' },
-  Reddit:   { text: 'text-orange-200', bg: 'bg-orange-900/50',    dot: '#FB923C' },
+  X: { text: 'text-zinc-200', bg: 'bg-zinc-700/60', dot: '#E4E4E7' },
+  LinkedIn: { text: 'text-blue-200', bg: 'bg-blue-900/50', dot: '#93C5FD' },
+  Reddit: { text: 'text-orange-200', bg: 'bg-orange-900/50', dot: '#FB923C' },
 };
 
 /* Single card — no screenshot logic inside (handled by carousel parent) */
 function QuoteCard({ q, t, dark, active }) {
   const pc = PLT[q.platform];
   return (
-    <div className={`h-full flex flex-col gap-4 p-6 rounded-2xl select-none transition-all duration-200 ${t.quote} ${
-      active
-        ? dark ? 'border-amber-500/35 bg-[#131313] shadow-lg shadow-amber-500/5' : 'border-[#D4A373]/60 bg-white shadow-lg'
-        : dark ? 'hover:border-white/10' : 'hover:border-[#D4A373]/30'
-    }`}>
+    <div className={`h-full flex flex-col gap-4 p-6 rounded-2xl select-none transition-all duration-200 ${t.quote} ${active
+      ? dark ? 'border-amber-500/35 bg-[#131313] shadow-lg shadow-amber-500/5' : 'border-[#D4A373]/60 bg-white shadow-lg'
+      : dark ? 'hover:border-white/10' : 'hover:border-[#D4A373]/30'
+      }`}>
       <span className={`self-start inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-widest ${pc.bg} ${pc.text}`}>
         <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: pc.dot }} />
         {q.platform}
@@ -893,11 +1029,11 @@ function QuoteCard({ q, t, dark, active }) {
 
 /* Infinite horizontal marquee with pause-on-hover + arrow nav */
 function QuotesCarousel({ t, dark }) {
-  const [paused, setPaused]         = useState(false);
+  const [paused, setPaused] = useState(false);
   const [hoveredKey, setHoveredKey] = useState(null);
-  const baseX    = useMotionValue(0);
+  const baseX = useMotionValue(0);
   const trackRef = useRef(null);
-  const loopW    = useRef(0);
+  const loopW = useRef(0);
 
   useEffect(() => {
     const measure = () => {
@@ -926,11 +1062,10 @@ function QuotesCarousel({ t, dark }) {
 
   const items = [...QUOTES, ...QUOTES, ...QUOTES];
 
-  const arrowCls = `absolute top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full flex items-center justify-center border transition-all duration-200 backdrop-blur-sm ${
-    dark
-      ? 'border-white/15 text-zinc-400 hover:border-amber-500/50 hover:text-amber-400 bg-[#0A0A0A]/70'
-      : 'border-[#E6D5C3] text-[#7C6A5B] hover:border-[#D4A373] hover:text-[#5F4029] bg-[#FDF8F3]/80'
-  }`;
+  const arrowCls = `absolute top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full flex items-center justify-center border transition-all duration-200 backdrop-blur-sm ${dark
+    ? 'border-white/15 text-zinc-400 hover:border-amber-500/50 hover:text-amber-400 bg-[#0A0A0A]/70'
+    : 'border-[#E6D5C3] text-[#7C6A5B] hover:border-[#D4A373] hover:text-[#5F4029] bg-[#FDF8F3]/80'
+    }`;
 
   return (
     <div className="relative touch-pan-y">
@@ -966,7 +1101,7 @@ function QuotesCarousel({ t, dark }) {
           overflowX: 'clip',
           overflowY: 'visible',
           WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 11%, black 89%, transparent 100%)',
-          maskImage:        'linear-gradient(to right, transparent 0%, black 11%, black 89%, transparent 100%)',
+          maskImage: 'linear-gradient(to right, transparent 0%, black 11%, black 89%, transparent 100%)',
         }}
         onMouseEnter={() => setPaused(true)}
         onMouseLeave={() => { setPaused(false); setHoveredKey(null); }}
@@ -993,12 +1128,11 @@ function QuotesCarousel({ t, dark }) {
               <AnimatePresence>
                 {hoveredKey === q.handle && (
                   <motion.div
-                    className={`absolute bottom-full mb-3 left-1/2 -translate-x-1/2 w-[300px] rounded-2xl overflow-hidden shadow-2xl pointer-events-none z-30 border ${
-                      dark ? 'border-white/15 shadow-black/60' : 'border-[#E6D5C3] shadow-black/10'
-                    }`}
+                    className={`absolute bottom-full mb-3 left-1/2 -translate-x-1/2 w-[300px] rounded-2xl overflow-hidden shadow-2xl pointer-events-none z-30 border ${dark ? 'border-white/15 shadow-black/60' : 'border-[#E6D5C3] shadow-black/10'
+                      }`}
                     initial={{ opacity: 0, y: 10, scale: 0.93 }}
-                    animate={{ opacity: 1, y: 0,  scale: 1    }}
-                    exit={{    opacity: 0, y: 10, scale: 0.93 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 10, scale: 0.93 }}
                     transition={{ duration: 0.2, ease: 'easeOut' }}
                   >
                     <img src={q.screenshot} alt={q.name} className="w-full h-auto block" />
@@ -1016,10 +1150,10 @@ function QuotesCarousel({ t, dark }) {
 }
 
 const STATS = [
-  { value: '12+',  label: 'GitHub Stars'   },
-  { value: '40+',  label: 'Reddit Upvotes' },
-  { value: '7.6K', label: 'Reddit Views'   },
-  { value: '0%',   label: 'Platform Fees'  },
+  { value: '12+', label: 'GitHub Stars' },
+  { value: '40+', label: 'Reddit Upvotes' },
+  { value: '7.6K', label: 'Reddit Views' },
+  { value: '0%', label: 'Platform Fees' },
 ];
 
 function SocialProof({ t, dark }) {
@@ -1153,14 +1287,15 @@ export default function Landing() {
 
       {/* z-10 keeps every section above the canvas */}
       <div className="relative z-10">
-        <Nav       t={t} dark={dark} setDark={setDark} />
-        <Hero      t={t} dark={dark} />
+        <Nav t={t} dark={dark} setDark={setDark} />
+        <Hero t={t} dark={dark} />
+        <VideoShowcase t={t} dark={dark} />
         <BeforeAfter t={t} dark={dark} />
-        <HowItWorks  t={t} />
+        <HowItWorks t={t} />
         <LivePreview t={t} dark={dark} />
         <SocialProof t={t} dark={dark} />
-        <CTABanner   t={t} dark={dark} />
-        <Footer      t={t} dark={dark} />
+        <CTABanner t={t} dark={dark} />
+        <Footer t={t} dark={dark} />
       </div>
 
       {/* Full-screen Intro Loader Overlay */}
