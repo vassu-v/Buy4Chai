@@ -1,0 +1,14 @@
+# This file defines code owners for the Buy4Chai repository
+
+* @vassu-v
+
+# Main app components
+/src/ @vassu-v
+
+# Landing site and marketing
+/site/ @vassu-v
+
+# Documentation
+/docs/ @vassu-v
+*.md @vassu-v
+CHANGELOG.md @vassu-v
